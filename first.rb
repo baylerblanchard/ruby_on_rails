@@ -9,3 +9,15 @@ puts "First name: #{first_name}"
 puts "Last name: #{last_name}"
 puts "Full name: #{first_name} #{last_name}"
 puts "is he hard?"
+
+hard = 0
+
+unless hard < 69
+  puts "yes"
+  puts "#{first_name} is hard"
+  puts "he is hard"
+else
+  puts "no"
+  puts "#{first_name} is not hard"
+  hard +=1
+end
