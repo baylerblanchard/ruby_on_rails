@@ -21,3 +21,9 @@ else
   puts "#{first_name} is not hard"
   hard +=1
 end
+
+# array exercises
+a = []
+
+a << 1
+a << first_name
