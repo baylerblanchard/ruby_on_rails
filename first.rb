@@ -16,5 +16,8 @@ until hard >= 69
     hard += 1
     puts hard 
 end
+<<<<<<< HEAD
 
 puts "#{first_name} #{last_name} is finally hard"
+=======
+>>>>>>> 9fbde5d (new file:   first.rb)
