@@ -27,3 +27,5 @@ a = []
 
 a << 1
 a << first_name
+
+a << last_name
