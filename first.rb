@@ -18,3 +18,11 @@ until hard >= 69
 end
 
 puts "#{first_name} #{last_name} is finally hard"
+
+# array exercises
+a = []
+
+a << 1
+a << first_name
+
+a << last_name
