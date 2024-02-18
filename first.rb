@@ -28,3 +28,40 @@ a << first_name
 a << last_name
 
 puts a
+
+# hash exercises
+employee = {
+  first: "bayler",
+  last: "blanchard",
+  h: "6 ft",
+  w: "140 lbs"
+}
+
+puts employee
+
+puts employee.keys
+puts employee.values
+
+
+puts "\nnew section\n\n"
+#methods work
+
+def display_name(first, last)
+    puts "First name: #{first}"
+    puts "Last name: #{last}"
+end
+
+display_name(first_name, last_name)
+
+display_name('ben', 'blanchard')
+
+def are_they_hard(hard)
+    until hard >= 69
+        hard += 1
+        puts hard 
+    end
+    puts "they are finally hard"
+end
+
+are_they_hard(23)
+
