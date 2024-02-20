@@ -65,3 +65,12 @@ end
 
 are_they_hard(23)
 
+make_hard = 0
+
+def will_they_be_hard(make_hard)
+    until make_hard >= 69
+        make_hard += 1
+        puts make_hard 
+    end
+    puts "they are finally hard"
+end
