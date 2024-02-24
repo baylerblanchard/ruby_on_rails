@@ -136,3 +136,13 @@ def yell_greeting(string)
   name = name.upcase
   greeting = "WASSAP, #{name}!"
 end
+
+#end of the debuuging exercises
+
+#enum practice
+
+dynasty_members = ['bayler', 'ben', 'austin', 'justyn', 'brodie', 'jon', 'kadeem']
+dynasty_admin = []
+
+dynasty_members.each {|member| dynasty_admin.push(member.upcase)}
+puts dynasty_admin
