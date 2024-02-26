@@ -41,8 +41,6 @@ def display_current_inventory(inventory_list)
     # use #reduce to iterate through each item of the word_list (an array)
     # return a hash with each word as the key and its length as the value
     # hint: look at the documentation and review the reduce examples in basic enumerable lesson
-    word_list.reduce(Hash.new(0)) do
-      
-    end
+    word_list.reduce({}) {|result, word| result[word] = word.length; result}
   end
   
