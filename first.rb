@@ -146,3 +146,5 @@ dynasty_admin = []
 
 dynasty_members.each {|member| dynasty_admin.push(member.upcase)}
 puts dynasty_admin
+
+#finished the nested array examples
