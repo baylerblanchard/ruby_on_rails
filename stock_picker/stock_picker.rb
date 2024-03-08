@@ -4,11 +4,14 @@ def stock_picker(day_prices)
     profit = 0
     best_days = []
 
-    day_prices.each_with_index.select do |day, index|
-      puts "day: #{index}, price: #{day}"
+    
+    length = day_prices.length
+    puts length
+    
+    for day in day_prices
+        puts day_prices[day]
       
     end
-   
     
 
     puts "best days #{best_days}"
