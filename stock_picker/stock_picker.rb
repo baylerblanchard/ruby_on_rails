@@ -1,21 +1,19 @@
 #this is the stock picker method
 
 def stock_picker(day_prices)
-    profit = 0
     best_days = []
-
+    max_profit = 0
     
-    length = day_prices.length
-    puts length
-    
-    for day in day_prices
-        puts day_prices[day]
-      
+    day_prices.each_with_index do |buy_price, buy_index|
+        day_prices[buy_index+1..-1].each_with_index do |sell_price, sell_index|
+            if sell_price -  buy_price > max_profit
+                max_profit = sell_price - buy_price
+                best_days = [buy_index, sell_index + buy_index +1]
+            end
+        end
     end
-    
-
-    puts "best days #{best_days}"
+    best_days
 end
 
 
-stock_picker([12,1,45,6,77,3,24])
+puts stock_picker([12,1,45,6,77,3,124])
