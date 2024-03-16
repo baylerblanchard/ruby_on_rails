@@ -1,7 +1,9 @@
 #this is a new practice file
 
-def this_is_a_new_file
-  puts 'new file please say wassup'
+class GoodDog
+  def initialize(name)
+    @name = name
+  end
 end
 
-this_is_a_new_file
+milo = GoodDog.new("Milo")
