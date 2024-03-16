@@ -1,14 +1,21 @@
 # Bubble sort method
 
 def bubb_sort(arr) 
-    n = arr.length
-    is_swapped = false
+    n = array.length
+  loop do
+    swapped = false
 
-    while is_swapped = true
-        puts arr
-        is_swapped = false
+    (n-1).times do |i|
+      if array[i] > array[i+1]
+        array[i], array[i+1] = array[i+1], array[i] # Swap elements
+        swapped = true
+      end
     end
-    
+
+    break unless swapped
+  end
+
+  array
 end
 
 
