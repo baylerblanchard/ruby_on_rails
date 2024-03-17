@@ -24,14 +24,16 @@ class GoodDog
   end
 end
 
-milo = GoodDog.new("Milo")
-puts milo.speak
-prince = GoodDog.new("Prince")
-puts prince.speak
+milo = GoodDog.new("Milo", "32cm", "10lbs")
+milo.speak
+prince = GoodDog.new("Prince", "67cm", "55lbs")
+prince.speak
 
-puts milo.get_name
-puts prince.get_name
+puts milo.name
+puts prince.name
 
 prince.set_name("Koa")
 
-puts prince.get_name
+puts prince.name
+
+milo.info
