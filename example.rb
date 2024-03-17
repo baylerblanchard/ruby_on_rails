@@ -1,7 +1,7 @@
 #this is a new practice file
 
 class MyCar
-  attr_accessor :make, :year, color
+  attr_accessor :make, :year, :color
 
   def initialize(m, y, c)
     @make = m
@@ -9,6 +9,14 @@ class MyCar
     @color = c
 
     speed = 0
+
+  end
+
+  def info
+    puts "#{self.make} #{self.year} #{self.color}"
+  end
+
+  def car_state
 
   end
 
@@ -51,3 +59,7 @@ prince.set_name("Koa")
 puts prince.name
 
 milo.info
+
+
+bayler_car = MyCar.new("toyota", "1999", "red")
+bayler_car.info
