@@ -1,20 +1,26 @@
 #this is a new practice file
 
 class GoodDog
-  def initialize(name)
-    @name = name
+  attr_accessor :name, :height, :weight
+
+  def initialize(n, h, w)
+    @name = n
+    @height = h
+    @weight = w
+  end
+
+  def change_info(n, h, w)
+    @name = n
+    @height = h
+    @weight = w
   end
 
   def speak
-    puts "#{@name} lets out a spooky growl"
+    puts "#{name} lets out a spooky growl"
   end
 
-  def name
-    @name
-  end
-
-  def name=(n)
-    @name = n
+  def info
+    puts "#{name} is #{height} tall and weights #{weight}"
   end
 end
 
