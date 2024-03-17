@@ -1,5 +1,19 @@
 #this is a new practice file
 
+class MyCar
+  attr_accessor :make, :year, color
+
+  def initialize(m, y, c)
+    @make = m
+    @year = y
+    @color = c
+
+    speed = 0
+
+  end
+
+end
+
 class GoodDog
   attr_accessor :name, :height, :weight
 
@@ -10,17 +24,17 @@ class GoodDog
   end
 
   def change_info(n, h, w)
-    @name = n
-    @height = h
-    @weight = w
+    self.name = n
+    self.height = h
+    self.weight = w
   end
 
   def speak
-    puts "#{name} lets out a spooky growl"
+    puts "#{self.name} lets out a spooky growl"
   end
 
   def info
-    puts "#{name} is #{height} tall and weights #{weight}"
+    puts "#{self.name} is #{self.height} tall and weights #{self.weight}"
   end
 end
 
