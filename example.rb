@@ -16,10 +16,17 @@ class MyCar
     puts "#{self.make} #{self.year} #{self.color}"
   end
 
-  def car_state
-
+  def car_state(ans)
+    if ans == "off"
+        puts "car is off"
+    end
+    if ans == "brake"
+        puts "car is braking"
+    end
+    if ans == "go"
+        puts "car is in go mode"
+    end
   end
-
 end
 
 class GoodDog
@@ -63,3 +70,4 @@ milo.info
 
 bayler_car = MyCar.new("toyota", "1999", "red")
 bayler_car.info
+bayler_car.car_state("off")
