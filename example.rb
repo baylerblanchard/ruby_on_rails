@@ -29,7 +29,7 @@ class MyCar
   end
 
   def change_speed(n)
-    speed = n
+    @speed += n
     puts "speed increases to  #{self.speed}"
   end
 end
@@ -75,4 +75,5 @@ milo.info
 bayler_car = MyCar.new("toyota", "1999", "red")
 bayler_car.info
 bayler_car.car_state("off")
-bayler_car.change_speed("45")
+bayler_car.change_speed(55)
+bayler_car.change_speed(45)
