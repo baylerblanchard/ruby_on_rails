@@ -16,6 +16,11 @@ class MyCar
     puts "#{self.make} #{self.year} #{self.color}"
   end
 
+  def change_color(c)
+    @color = c
+    puts "new color is #{self.color}"
+  end
+
   def car_state(ans)
     if ans == "off"
         puts "car is off"
@@ -27,6 +32,11 @@ class MyCar
         puts "car is in go mode"
     end
   end
+
+  def display_year
+    puts "this car was made in #{self.year}"
+  end
+
 
   def change_speed(n)
     @speed += n
@@ -42,6 +52,7 @@ class GoodDog
     @height = h
     @weight = w
   end
+
 
   def change_info(n, h, w)
     self.name = n
@@ -77,3 +88,5 @@ bayler_car.info
 bayler_car.car_state("off")
 bayler_car.change_speed(55)
 bayler_car.change_speed(45)
+bayler_car.change_color("black")
+bayler_car.display_year()
