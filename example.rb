@@ -1,7 +1,8 @@
 #this is a new practice file
 
 class MyCar
-  attr_accessor :make, :year, :color, :speed
+  attr_accessor :make, :color, :speed
+  attr_reader :year
 
   def initialize(m, y, c)
     @make = m
@@ -16,7 +17,7 @@ class MyCar
     puts "#{self.make} #{self.year} #{self.color}"
   end
 
-  def change_color(c)
+  def spray_paint(c)
     @color = c
     puts "new color is #{self.color}"
   end
@@ -88,5 +89,5 @@ bayler_car.info
 bayler_car.car_state("off")
 bayler_car.change_speed(55)
 bayler_car.change_speed(45)
-bayler_car.change_color("black")
-bayler_car.display_year()
+bayler_car.spray_paint("black")
+puts bayler_car.year
