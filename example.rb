@@ -78,7 +78,7 @@ prince.speak
 puts milo.name
 puts prince.name
 
-prince.set_name("Koa")
+prince.name = "Koa"
 
 puts prince.name
 
