@@ -38,6 +38,10 @@ class MyCar
     puts "this car was made in #{self.year}"
   end
 
+  def miles_per_gallon
+
+
+  end
 
   def change_speed(n)
     @speed += n
@@ -46,9 +50,11 @@ class MyCar
 end
 
 class GoodDog
+  @@num_of_dogs = 0
   attr_accessor :name, :height, :weight
 
   def initialize(n, h, w)
+    @@num_of_dogs += 1
     @name = n
     @height = h
     @weight = w
@@ -68,6 +74,11 @@ class GoodDog
   def info
     puts "#{self.name} is #{self.height} tall and weights #{self.weight}"
   end
+
+  def self.total_dogs
+    @@num_of_dogs
+  end
+
 end
 
 milo = GoodDog.new("Milo", "32cm", "10lbs")
@@ -90,4 +101,4 @@ bayler_car.car_state("off")
 bayler_car.change_speed(55)
 bayler_car.change_speed(45)
 bayler_car.spray_paint("black")
-puts bayler_car.year
+puts GoodDog.total_dogs
