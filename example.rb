@@ -47,6 +47,10 @@ class MyCar
     @speed += n
     puts "speed increases to  #{self.speed}"
   end
+
+  def to_s
+    "this vehicle is a #{make} from #{year} and is the color #{color}"
+  end
 end
 
 class GoodDog
@@ -103,3 +107,4 @@ bayler_car.change_speed(45)
 bayler_car.spray_paint("black")
 puts GoodDog.total_dogs
 bayler_car.miles_per_gallon(45, 6)
+puts bayler_car
