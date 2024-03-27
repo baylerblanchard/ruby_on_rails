@@ -38,8 +38,8 @@ class MyCar
     puts "this car was made in #{self.year}"
   end
 
-  def miles_per_gallon
-    mpg = gallons / miles
+  def miles_per_gallon(miles, gallons)
+    puts "This vehicle is at #{miles / gallons} miles per gallon"
 
   end
 
@@ -102,3 +102,4 @@ bayler_car.change_speed(55)
 bayler_car.change_speed(45)
 bayler_car.spray_paint("black")
 puts GoodDog.total_dogs
+bayler_car.miles_per_gallon(45, 6)
