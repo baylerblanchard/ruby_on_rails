@@ -39,7 +39,7 @@ class MyCar
   end
 
   def miles_per_gallon
-
+    mpg = gallons / miles
 
   end
 
