@@ -37,7 +37,7 @@ class MyCar
   def user_error
     puts "the car is in park and cannot be driven"
   end
-  
+
   def display_year
     puts "this car was made in #{self.year}"
   end
@@ -55,6 +55,16 @@ class MyCar
   def to_s
     "this vehicle is a #{make} from #{year} and is the color #{color}"
   end
+end
+
+class Cinema
+  attr_accessor :name, :location
+
+end
+
+class Movie
+  attr_accessor :name
+
 end
 
 class GoodDog
