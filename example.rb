@@ -34,6 +34,10 @@ class MyCar
     end
   end
 
+  def user_error
+    puts "the car is in park and cannot be driven"
+  end
+  
   def display_year
     puts "this car was made in #{self.year}"
   end
