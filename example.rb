@@ -57,6 +57,12 @@ class MyCar
   end
 end
 
+class Bayler
+  attr_accessor :mood, :status, :to_do_list
+
+  def mood_analyze
+end
+
 class Cinema
   attr_accessor :name, :location
 
