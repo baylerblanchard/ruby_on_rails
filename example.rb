@@ -61,6 +61,11 @@ class Bayler
   attr_accessor :mood, :status, :to_do_list
 
   def mood_analyze
+    if mood == "stressed"
+      status = "needs to relax"
+      puts status
+    end
+  end
 end
 
 class Cinema
@@ -128,3 +133,6 @@ bayler_car.spray_paint("black")
 puts GoodDog.total_dogs
 bayler_car.miles_per_gallon(45, 6)
 puts bayler_car
+bayler =Bayler.new()
+bayler.mood = "stressed"
+bayler.mood_analyze
