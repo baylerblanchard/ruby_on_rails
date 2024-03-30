@@ -65,6 +65,16 @@ class Bayler
       status = "needs to relax"
       puts status
     end
+
+    if mood == "happy"
+      status = "enjoying the day"
+      puts status
+    end
+
+    if mood == "depressed"
+      status = "enjoy some bud"
+      puts status
+    end
   end
 end
 
