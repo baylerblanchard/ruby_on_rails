@@ -1,4 +1,4 @@
-#this is a new practice file
+# this is a new practice file
 
 class MyCar
   attr_accessor :make, :color, :speed
@@ -98,7 +98,6 @@ class GoodDog
     @height = h
     @weight = w
   end
-
 
   def change_info(n, h, w)
     self.name = n
