@@ -18,3 +18,27 @@ game_board[1][1] = 'X'
 
 game_board.each { |row| puts row.join(" | ") }
 puts "\n"
+
+
+class TicTacToe
+  def initialize
+    @board = Array.new(3) { Array.new(3, ' ') }
+    @current_player = 'X'
+  end
+
+  def display_board
+    @board.each { |row| puts row.join(" | ") }
+  end
+
+  def make_move(row, col)
+    if @board[row][col] = ' '
+      @board[row, col] = @current_player
+      switch_player
+    else
+      puts 'invalid move please try again'
+    end
+  end
+
+  def switch_player
+    @current_player = (current_player == 'X') ? 'O' : 'X'
+  end
