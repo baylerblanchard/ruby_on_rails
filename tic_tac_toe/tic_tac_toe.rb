@@ -42,3 +42,10 @@ class TicTacToe
   def switch_player
     @current_player = (current_player == 'X') ? 'O' : 'X'
   end
+
+  def check_winner
+    @board.each do |row|
+      return true if row.uniq.length == 1 && row[0] != ''
+    end
+  end
+end
