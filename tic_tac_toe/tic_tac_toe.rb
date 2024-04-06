@@ -19,7 +19,7 @@ game_board[1][1] = 'X'
 game_board.each { |row| puts row.join(" | ") }
 puts "\n"
 
-
+# tic tac toe class for the game
 class TicTacToe
   def initialize
     @board = Array.new(3) { Array.new(3, ' ') }
@@ -40,12 +40,30 @@ class TicTacToe
   end
 
   def switch_player
-    @current_player = (current_player == 'X') ? 'O' : 'X'
+    @current_player = current_player == 'X' ? 'O' : 'X'
+  end
+
+  def check_row_col
+    @board.each_with_index do |row, i|
+      col = @board.map { |r| r[i] }
+      return true if row.uniq.length == 1 && row[0] != ' '
+      return true if col.uniq.length == 1 && col[0] != ' '
+    end
+  end
+
+  def check_diag
+    diagonals = [
+      [@board[0][0], @board[1][1], @board[2][2]],
+      [@board[0][2], @board[1][1], @board[2][0]]
+    ]
+    diagonals.each do |diag|
+      return true if diag.uniq.length == 1 && diag[0] != ' '
+    end
+    false
   end
 
   def check_winner
-    @board.each do |row|
-      return true if row.uniq.length == 1 && row[0] != ''
-    end
+    check_diag
+    check_row_col
   end
 end
