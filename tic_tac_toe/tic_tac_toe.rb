@@ -13,6 +13,10 @@ class TicTacToe
       puts '-' * (row_display.length + 2) unless i == @board.length - 1
     end
   end
+
+  def make_move
+
+  end
 end
 
 game = TicTacToe.new
