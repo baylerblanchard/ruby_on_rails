@@ -16,8 +16,15 @@ class TicTacToe
   def switch_player
     if @current_player == 'X'
       @current_player = 'O'
-    else @current_player = 'X'
+    else
+      @current_player = 'X'
     end
+  end
+
+  def check_winner
+    diagonals = [
+
+    ]
   end
 
   def make_move(row, col)
