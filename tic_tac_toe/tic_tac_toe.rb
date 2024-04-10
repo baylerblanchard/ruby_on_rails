@@ -35,8 +35,8 @@ class TicTacToe
   end
 
   def check_win
-    if check_diag = true
-      puts "the diagonal wins"
+    if check_diag == true
+      puts 'the diagonal wins'
     end
   end
 
