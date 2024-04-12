@@ -34,11 +34,15 @@ class TicTacToe
     false
   end
 
-  def check_3
-    @board.each do
+  def check_box_win
+    @board.each do |box|
+      return true if box.uniq.length == 1 && box[0] != ''
+    end
+    false
+  end
 
   def check_win
-    if check_diag || check_3 == true
+    if check_diag || check_box_win == true
       puts 'the diagonal wins'
     end
   end
