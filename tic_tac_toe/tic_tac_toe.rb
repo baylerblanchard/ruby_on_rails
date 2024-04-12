@@ -24,12 +24,15 @@ class TicTacToe
 
   def check_diag
     diagonals = [
-      @board[0][0], @board[1][1], @board[2][2],
-      @board[0][2], @board[1][1], @board[2][0]
+      [@board[0][0], @board[1][1], @board[2][2]],
+      [@board[0][2], @board[1][1], @board[2][0]]
     ]
 
     diagonals.each do |diag|
-      return true if diag.uniq.length == 1 && diag[0] != ''
+      # Check if all elements are the same and not empty space
+      if diag.uniq.length == 1 && diag[0] != ''
+        return true
+      end
     end
     false
   end
@@ -38,13 +41,11 @@ class TicTacToe
     @board.each do |box|
       return true if box.uniq.length == 1 && box[0] != ''
     end
-    false
   end
 
   def check_win
-    if check_diag || check_box_win == true
-      puts 'the diagonal wins'
-    end
+    check_box_win
+    check_diag
   end
 
   def make_move(row, col)
@@ -58,7 +59,8 @@ game = TicTacToe.new
 game.display_board
 game.make_move(1, 1)
 game.make_move(0, 1)
-game.make_move(0, 0)
+game.make_move(1, 0)
 game.make_move(0, 2)
 game.make_move(2, 2)
+game.make_move(0, 0)
 game.check_win
