@@ -38,10 +38,21 @@ class TicTacToe
   end
 
   def check_box_win
-    @board.each do |box|
-      return true if box.uniq.length == 1 && box[0] != ''
+    # Check rows
+    @board.each do |row|
+      if row.uniq.length == 1 && row[0] != ''
+        puts "Player #{switch_player} won!"
+        return true
+      end
     end
-    puts "#{@current_player} wins!!"
+    # Check columns
+    @board.transpose.each do |column|
+      if column.uniq.length == 1 && column[0] != ''
+        puts "Player #{switch_player} won!"
+        return true
+      end
+    end
+    false
   end
 
   def check_win
@@ -58,10 +69,3 @@ end
 
 game = TicTacToe.new
 game.display_board
-game.make_move(1, 1)
-game.make_move(0, 1)
-game.make_move(1, 0)
-game.make_move(0, 2)
-game.make_move(2, 2)
-game.make_move(0, 0)
-game.check_win
