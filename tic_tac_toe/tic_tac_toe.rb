@@ -61,13 +61,9 @@ class TicTacToe
   end
 
   def input_check(row, col)
-    if row || col >= 3
-      puts 'sorry move is not valid'
-      return
-    end
-    if row || col <= 0
-      puts 'sorry move is not valid'
-      return
+    if row.to_i.negative? || row.to_i > 2 || col.to_i.negative? || col.to_i > 2
+      puts 'Invalid input. Please enter a number between 0 and 2.'
+      false
     end
   end
 
@@ -79,15 +75,28 @@ class TicTacToe
     switch_player
   end
 
-  def play
-    winner = false
-    while winner == false
-      display_board
+  def user_selection
+    puts 'Row selection: '
+    row = gets.chomp
+    puts 'Col selection: '
+    col = gets.chomp
+    if input_check(row, col) == false
       puts 'Row selection: '
       row = gets.chomp
       puts 'Col selection: '
       col = gets.chomp
-      make_move(row, col)
+    end
+    make_move(row, col)
+  end
+
+  def play
+    winner = false
+    while winner == false
+      display_board
+      user_selection
+      if check_win == true
+        winner = true
+      end
     end
   end
 end
