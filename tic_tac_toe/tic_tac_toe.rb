@@ -41,6 +41,7 @@ class TicTacToe
     @board.each do |box|
       return true if box.uniq.length == 1 && box[0] != ''
     end
+    puts "#{@current_player} wins!!"
   end
 
   def check_win
