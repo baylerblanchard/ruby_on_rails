@@ -60,12 +60,37 @@ class TicTacToe
     check_diag
   end
 
+  def input_check(row, col)
+    if row || col >= 3
+      puts 'sorry move is not valid'
+      return
+    end
+    if row || col <= 0
+      puts 'sorry move is not valid'
+      return
+    end
+  end
+
   def make_move(row, col)
+    input_check(row, col)
+    row = row.to_i
+    col = col.to_i
     @board[row][col] = @current_player
-    display_board
     switch_player
+  end
+
+  def play
+    winner = false
+    while winner == false
+      display_board
+      puts 'Row selection: '
+      row = gets.chomp
+      puts 'Col selection: '
+      col = gets.chomp
+      make_move(row, col)
+    end
   end
 end
 
 game = TicTacToe.new
-game.display_board
+game.play
