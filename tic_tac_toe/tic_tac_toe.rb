@@ -22,48 +22,32 @@ class TicTacToe
     end
   end
 
-  def check_diag
-    diagonals = [
-      [@board[0][0], @board[1][1], @board[2][2]],
-      [@board[0][2], @board[1][1], @board[2][0]]
-    ]
-
-    diagonals.each do |diag|
-      # Check if all elements are the same and not empty space
-      if diag.uniq.length == 1 && diag[0] != ''
-        return true
-      end
-    end
-    false
-  end
-
-  def check_box_win
+  def check_win
     # Check rows
     @board.each do |row|
-      if row.uniq.length == 1 && row[0] != ''
-        puts "Player #{switch_player} won!"
-        return true
-      end
+      return true if row.uniq.length == 1 && row[0] != ' '
     end
-    # Check columns
-    @board.transpose.each do |column|
-      if column.uniq.length == 1 && column[0] != ''
-        puts "Player #{switch_player} won!"
-        return true
-      end
-    end
-    false
-  end
 
-  def check_win
-    check_box_win
-    check_diag
+    # Check columns
+    @board.transpose.each do |col|
+      return true if col.uniq.length == 1 && col[0] != ' '
+    end
+
+    # Check diagonals
+    if (@board[0][0] == @board[1][1] && @board[1][1] == @board[2][2] && @board[0][0] != ' ') ||
+       (@board[0][2] == @board[1][1] && @board[1][1] == @board[2][0] && @board[0][2] != ' ')
+      return true
+    end
+
+    false
   end
 
   def input_check(row, col)
     if row.to_i.negative? || row.to_i > 2 || col.to_i.negative? || col.to_i > 2
       puts 'Invalid input. Please enter a number between 0 and 2.'
       false
+    else
+      true
     end
   end
 
@@ -72,34 +56,48 @@ class TicTacToe
     row = row.to_i
     col = col.to_i
     @board[row][col] = @current_player
-    switch_player
   end
 
   def user_selection
-    puts 'Row selection: '
-    row = gets.chomp
-    puts 'Col selection: '
-    col = gets.chomp
-    if input_check(row, col) == false
+    display_board
+    valid_input = false
+    row = nil
+    col = nil
+    until valid_input
       puts 'Row selection: '
       row = gets.chomp
       puts 'Col selection: '
       col = gets.chomp
+      if input_check(row, col)
+        valid_input = true
+      else
+        puts 'Invalid input. Please enter a number between 0 and 2.'
+      end
     end
     make_move(row, col)
   end
 
-  def play
-    winner = false
-    while winner == false
-      display_board
+  def board_full?
+    @board.all? do |row|
+      row.none? { |cell| cell == ' ' }
+    end
+  end
+
+  def play_game
+    loop do
       user_selection
-      if check_win == true
-        winner = true
+      if check_win
+        display_board
+        puts "Player #{@current_player} has won!"
+        break
+      elsif board_full?
+        puts "It's a draw!"
+        break
       end
+      switch_player
     end
   end
 end
 
 game = TicTacToe.new
-game.play
+game.play_game
