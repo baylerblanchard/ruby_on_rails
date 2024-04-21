@@ -18,9 +18,18 @@ class Mastermind
     puts "play as guesser? Y/N"
     response = gets.chomp.downcase
 
-    if response == 'y'
+    if guesser_response(response) == true
+      puts 'this will play the guesser'
+    elsif guesser_response(response) == false
+      puts 'this will play as the code maker'
+    end
+
+  end
+
+  def guesser_response(char)
+    if char == 'y'
       is_guesser = true
-    elsif response == 'n'
+    elsif char == 'n'
       is_guesser = false
     else
       puts 'invalid input'
@@ -30,3 +39,4 @@ end
 game = Mastermind.new
 game.create_key
 puts game.key
+game.play_game
