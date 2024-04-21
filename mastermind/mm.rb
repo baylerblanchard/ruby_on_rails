@@ -23,17 +23,24 @@ class Mastermind
     elsif guesser_response(response) == false
       puts 'this will play as the code maker'
     end
-
   end
 
   def guesser_response(char)
     if char == 'y'
-      is_guesser = true
+      true
     elsif char == 'n'
-      is_guesser = false
+      false
     else
       puts 'invalid input'
     end
+  end
+
+  def play_as_guesser
+
+  end
+
+  def play_other
+
   end
 end
 game = Mastermind.new
