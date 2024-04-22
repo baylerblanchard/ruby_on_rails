@@ -19,7 +19,7 @@ class Mastermind
     response = gets.chomp.downcase
 
     if guesser_response(response) == true
-      puts 'this will play the guesser'
+      play_as_guesser
     elsif guesser_response(response) == false
       puts 'this will play as the code maker'
     end
@@ -35,12 +35,18 @@ class Mastermind
     end
   end
 
-  def play_as_guesser
-
+  def guess_check(guess)
+    puts guess
   end
 
-  def play_other
-
+  def play_as_guesser
+    total_guesses = 0
+    while total_guesses <= 5
+      puts 'please provide your guess: '
+      response = gets.chomp.downcase
+      guess_check(response)
+      total_guesses += 1
+    end
   end
 end
 game = Mastermind.new
