@@ -36,7 +36,7 @@ class Mastermind
   end
 
   def guess_check(guess)
-    puts guess
+    puts guess.split
   end
 
   def play_as_guesser
