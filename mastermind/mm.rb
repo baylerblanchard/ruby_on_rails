@@ -36,7 +36,9 @@ class Mastermind
   end
 
   def guess_check(guess)
-    puts guess.split
+    if guess.split == key
+      puts 'you win!'
+    end
   end
 
   def play_as_guesser
