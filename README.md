@@ -6,3 +6,4 @@ i need to work on some stuff tomorrow
 work on your stuff
 you need to work on your stuff
 worked on the next lesson
+keep grinding this will matter
