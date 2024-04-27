@@ -55,7 +55,8 @@ class Mastermind
 
   def player_won
     puts 'key is correct! you win!'
-    exit
+    @total_guesses = 5
+    return
   end
 end
 
