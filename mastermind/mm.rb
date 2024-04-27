@@ -15,7 +15,7 @@ class Mastermind
   end
 
   def play_game
-    puts "play as guesser? Y/N"
+    puts 'play as guesser? Y/N'
     response = gets.chomp.downcase
 
     if guesser_response(response) == true
@@ -36,8 +36,10 @@ class Mastermind
   end
 
   def guess_check(guess)
+    return 'guess is empty' if guess.nil? || guess.empty?
+
     if guess.split == key
-      puts 'you win!'
+      player_won
     end
   end
 
@@ -50,7 +52,13 @@ class Mastermind
       total_guesses += 1
     end
   end
+
+  def player_won
+    puts 'key is correct! you win!'
+    exit
+  end
 end
+
 game = Mastermind.new
 game.create_key
 puts game.key
