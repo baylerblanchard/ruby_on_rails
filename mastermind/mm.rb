@@ -1,11 +1,7 @@
 # this is my mastermind game coded in ruby
 
 class Mastermind
-  attr_accessor :key
-
-  def initialize
-    @key
-  end
+  attr_accessor :key, :total_guesses
 
   def create_key
     @key = []
@@ -21,7 +17,7 @@ class Mastermind
     if guesser_response(response) == true
       play_as_guesser
     elsif guesser_response(response) == false
-      puts 'this will play as the code maker'
+      ai_is_guesser
     end
   end
 
@@ -38,25 +34,36 @@ class Mastermind
   def guess_check(guess)
     return 'guess is empty' if guess.nil? || guess.empty?
 
-    if guess.split == key
+    if guess == key
+      player_won
+    elsif guess.split == key
       player_won
     end
   end
 
+  def ai_is_guesser
+    @total_guesses = 0
+    while @total_guesses <= 5
+      guess = @key.sample(4)
+      puts "AI's guess: #{guess.join(', ')}"
+      guess_check(guess)
+      @total_guesses += 1
+    end
+  end
+
   def play_as_guesser
-    total_guesses = 0
-    while total_guesses <= 5
+    @total_guesses = 0
+    while @total_guesses <= 5
       puts 'please provide your guess: '
       response = gets.chomp.downcase
       guess_check(response)
-      total_guesses += 1
+      @total_guesses += 1
     end
   end
 
   def player_won
     puts 'key is correct! you win!'
     @total_guesses = 5
-    return
   end
 end
 
