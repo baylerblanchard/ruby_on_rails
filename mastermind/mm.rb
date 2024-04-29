@@ -44,8 +44,8 @@ class Mastermind
   def ai_is_guesser
     @total_guesses = 0
     while @total_guesses <= 5
-      guess = @key.sample(4)
-      puts "AI's guess: #{guess.join(', ')}"
+      guess = @key.sample(4).join(' ')
+      puts "AI's guess: #{guess}"
       guess_check(guess)
       @total_guesses += 1
     end
