@@ -4,7 +4,7 @@ guess = gets.chomp
 
 words = []
 
-file_path = 'google-100000-english-no-swear.txt'
+file_path = 'google-10000-english-no-swears.txt'
 
 File.open(file_path, 'r') do |file|
   # Code to read or modify the file goes here
