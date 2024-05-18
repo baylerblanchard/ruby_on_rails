@@ -1,5 +1,4 @@
-word = 'hangman'
-
+attempts = 6
 words = []
 
 file_path = 'google-10000-english-no-swears.txt'
@@ -12,7 +11,15 @@ File.open(file_path, 'r') do |file|
 end
 word = words.sample
 
-puts 'Enter your guess:'
-guess = gets.chomp
-
 puts word
+
+while attempts != 0
+  puts 'Enter your guess:'
+  guess = gets.chomp
+
+  if guess == word
+    puts 'congrats you won'
+  elsif guess != word
+    attempts -= 1
+  end
+end
