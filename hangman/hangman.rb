@@ -1,6 +1,4 @@
 word = 'hangman'
-puts 'Enter your guess:'
-guess = gets.chomp
 
 words = []
 
@@ -12,5 +10,9 @@ File.open(file_path, 'r') do |file|
     words << line.chomp
   end
 end
+word = words.sample
 
-puts words
+puts 'Enter your guess:'
+guess = gets.chomp
+
+puts word
