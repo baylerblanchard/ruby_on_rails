@@ -12,12 +12,9 @@ File.open(file_path, 'r') do |file|
 end
 
 word = words.sample
+word_blank = ' _ ' * word.length
 
-word.each do |letter|
-  word_blank =
-
-end
-
+puts word_blank
 puts word
 
 while attempts != 0
