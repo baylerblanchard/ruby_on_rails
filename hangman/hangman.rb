@@ -1,6 +1,7 @@
 attempts = 6
 words = []
 
+
 file_path = 'google-10000-english-no-swears.txt'
 
 File.open(file_path, 'r') do |file|
@@ -9,7 +10,13 @@ File.open(file_path, 'r') do |file|
     words << line.chomp
   end
 end
+
 word = words.sample
+
+word.each do |letter|
+  word_blank =
+
+end
 
 puts word
 
