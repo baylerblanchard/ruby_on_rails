@@ -7,3 +7,4 @@ work on your stuff
 you need to work on your stuff
 worked on the next lesson
 keep grinding this will matter
+it will all be worth it
