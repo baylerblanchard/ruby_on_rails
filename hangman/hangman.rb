@@ -12,7 +12,7 @@ File.open(file_path, 'r') do |file|
 end
 
 word = words.sample
-word_blank = ' _ ' * word.length
+word_blank = '_ ' * word.length
 
 puts word_blank
 puts word
@@ -27,3 +27,5 @@ while attempts != 0
     attempts -= 1
   end
 end
+
+# i need to work on the saving the game function next
