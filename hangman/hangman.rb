@@ -1,31 +1,32 @@
-attempts = 6
-words = []
-
-
-file_path = 'google-10000-english-no-swears.txt'
-
-File.open(file_path, 'r') do |file|
-  # Code to read or modify the file goes here
-  file.each_line do |line|
-    words << line.chomp
+# this is a class for my hangman game
+class HangmanGame
+  def initialize
+    @attempts = 6
+    @words = []
+    @file_path = 'google-10000-english-no-swears.txt'
+    File.open(@file_path, 'r') do |file|
+      file.each_line do |line|
+        @words << line.chomp
+      end
+    end
+    @word = @words.sample
+    @word_blank = '_ ' * @word.length
   end
 end
 
-word = words.sample
-word_blank = '_ ' * word.length
+game = HangmanGame.new
+puts game.instance_variable_get(:@word)
 
-puts word_blank
-puts word
 
-while attempts != 0
-  puts 'Enter your guess:'
-  guess = gets.chomp
-
-  if guess == word
-    puts 'congrats you won'
-  elsif guess != word
-    attempts -= 1
-  end
+# Save the game state to a file
+File.open('hangman_save.txt', 'w') do |file|
+  file.puts game.instance_variables.map { |var| "#{var}=#{game.instance_variable_get(var).inspect}" }
 end
 
-# i need to work on the saving the game function next
+# Open the saved game file
+File.open('hangman_save.txt', 'r') do |file|
+  # Read the saved game state
+  saved_game_state = file.read
+  # Process the saved game state as needed
+  # ...
+end
