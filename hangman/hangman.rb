@@ -17,7 +17,6 @@ end
 game = HangmanGame.new
 puts game.instance_variable_get(:@word)
 
-
 # Save the game state to a file
 File.open('hangman_save.txt', 'w') do |file|
   file.puts game.instance_variables.map { |var| "#{var}=#{game.instance_variable_get(var).inspect}" }
