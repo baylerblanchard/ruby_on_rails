@@ -12,6 +12,38 @@ class HangmanGame
     @word = @words.sample
     @word_blank = '_ ' * @word.length
   end
+
+  def play_game
+    while @attempts.positive?
+      puts "Attempts left: #{@attempts}"
+      puts "Word: #{@word_blank}"
+      puts 'Guess a letter: '
+      guess = gets.chomp.downcase
+
+      if guess.length != 1 || !guess.match?(/[a-z]/)
+        puts 'Invalid input. Please enter a single letter.'
+        next
+      end
+
+      if @word.include?(guess)
+        @word.chars.each_with_index do |letter, index|
+          @word_blank[index * 2] = letter if letter == guess
+        end
+
+        if @word_blank.include?('_')
+          puts 'Correct guess! Keep going.'
+        else
+          puts "Congratulations! You guessed the word: #{@word}"
+          return
+        end
+      else
+        @attempts -= 1
+        puts "Wrong guess! Attempts left: #{@attempts}"
+      end
+    end
+
+    puts "Game over! The word was: #{@word}"
+  end
 end
 
 game = HangmanGame.new
@@ -33,3 +65,5 @@ def open_save
     # ...
   end
 end
+
+game.play_game
