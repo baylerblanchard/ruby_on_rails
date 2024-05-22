@@ -18,14 +18,18 @@ game = HangmanGame.new
 puts game.instance_variable_get(:@word)
 
 # Save the game state to a file
-File.open('hangman_save.txt', 'w') do |file|
-  file.puts game.instance_variables.map { |var| "#{var}=#{game.instance_variable_get(var).inspect}" }
+def save_game
+  File.open('hangman_save.txt', 'w') do |file|
+    file.puts(game.instance_variables.map { |var| "#{var}=#{game.instance_variable_get(var).inspect}" unless var == :@words })
+  end
 end
 
 # Open the saved game file
-File.open('hangman_save.txt', 'r') do |file|
-  # Read the saved game state
-  saved_game_state = file.read
-  # Process the saved game state as needed
-  # ...
+def open_save
+  File.open('hangman_save.txt', 'r') do |file|
+    # Read the saved game state
+    saved_game_state = file.read
+    # Process the saved game state as needed
+    # ...
+  end
 end
