@@ -32,6 +32,11 @@ class HangmanGame
 
         if @word_blank.include?('_')
           puts 'Correct guess! Keep going.'
+          puts 'Would you like to save Y/N?'
+          save_bool = gets.chomp.downcase
+          if save_bool == 'y'
+            save_game
+          end
         else
           puts "Congratulations! You guessed the word: #{@word}"
           return
@@ -39,6 +44,11 @@ class HangmanGame
       else
         @attempts -= 1
         puts "Wrong guess! Attempts left: #{@attempts}"
+        puts 'Would you like to save Y/N?'
+        save_bool = gets.chomp.downcase
+        if save_bool == 'y'
+          save_game
+        end
       end
     end
 

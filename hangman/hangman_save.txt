@@ -1,5 +1,0 @@
-@attempts=6
-
-@file_path="google-10000-english-no-swears.txt"
-@word="gay"
-@word_blank="_ _ _ "
