@@ -13,6 +13,22 @@ class HangmanGame
     @word_blank = '_ ' * @word.length
   end
 
+  def save_game
+  File.open('hangman_save.txt', 'w') do |file|
+    file.puts(game.instance_variables.map { |var| "#{var}=#{game.instance_variable_get(var).inspect}" unless var == :@words })
+  end
+end
+
+# Open the saved game file
+def open_save
+  File.open('hangman_save.txt', 'r') do |file|
+    # Read the saved game state
+    saved_game_state = file.read
+    # Process the saved game state as needed
+    # ...
+  end
+end
+
   def play_game
     while @attempts.positive?
       puts "Attempts left: #{@attempts}"
