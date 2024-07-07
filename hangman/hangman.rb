@@ -1,4 +1,6 @@
 # this is a class for my hangman game
+require 'json'
+
 class HangmanGame
   def initialize
     @attempts = 6
@@ -13,10 +15,13 @@ class HangmanGame
     @word_blank = '_ ' * @word.length
   end
 
+  # Save the game state to a file
   def save_game
-<<<<<<< HEAD
     File.open('hangman_save.txt', 'w') do |file|
-      file.puts(self.instance_variables.map { |var| "#{var}=#{self.instance_variable_get(var).inspect}" unless var == :@words })
+      game_state = self.instance_variables.each_with_object({}) do |var, hash|
+        hash[var] = self.instance_variable_get(var) unless var == :@words
+      end
+      file.puts(JSON.dump(game_state))
     end
   end
 
@@ -25,31 +30,13 @@ class HangmanGame
     game = self.new
     File.open('hangman_save.txt', 'r') do |file|
       # Read the saved game state
-      saved_game_state = file.read
-      # Process the saved game state as saved_game_state = file.read.split("\n")
-      saved_game_state.each do |var|
-        var_name, var_value = var.split('=')
-        game.instance_variable_set(var_name, eval(var_value))
+      saved_game_state = JSON.load(file)
+      saved_game_state.each do |var, value|
+        game.instance_variable_set(var, value)
       end
     end
     game
   end
-=======
-  File.open('hangman_save.txt', 'w') do |file|
-    file.puts(game.instance_variables.map { |var| "#{var}=#{game.instance_variable_get(var).inspect}" unless var == :@words })
-  end
-end
-
-# Open the saved game file
-def open_save
-  File.open('hangman_save.txt', 'r') do |file|
-    # Read the saved game state
-    saved_game_state = file.read
-    # Process the saved game state as needed
-    # ...
-  end
-end
->>>>>>> b508acdd43399b546e826945cd6bf484f1235eea
 
   def play_game
     while @attempts.positive?
@@ -97,9 +84,13 @@ end
 puts "is this a new game?Y/N"
 ans = gets.chomp.downcase
 
-if ans =
+if ans == 'y'
+  game = HangmanGame.itself.open_save
 
-game = HangmanGame.new
+else
+  game = HangmanGame.new
+end
+
 puts game.instance_variable_get(:@word)
 
 game.play_game
