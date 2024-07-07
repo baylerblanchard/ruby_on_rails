@@ -14,6 +14,7 @@ class HangmanGame
   end
 
   def save_game
+<<<<<<< HEAD
     File.open('hangman_save.txt', 'w') do |file|
       file.puts(self.instance_variables.map { |var| "#{var}=#{self.instance_variable_get(var).inspect}" unless var == :@words })
     end
@@ -33,6 +34,22 @@ class HangmanGame
     end
     game
   end
+=======
+  File.open('hangman_save.txt', 'w') do |file|
+    file.puts(game.instance_variables.map { |var| "#{var}=#{game.instance_variable_get(var).inspect}" unless var == :@words })
+  end
+end
+
+# Open the saved game file
+def open_save
+  File.open('hangman_save.txt', 'r') do |file|
+    # Read the saved game state
+    saved_game_state = file.read
+    # Process the saved game state as needed
+    # ...
+  end
+end
+>>>>>>> b508acdd43399b546e826945cd6bf484f1235eea
 
   def play_game
     while @attempts.positive?
