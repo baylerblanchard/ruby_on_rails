@@ -56,12 +56,9 @@ class HangmanGame
         end
 
         if @word_blank.include?('_')
+          puts @word_blank
           puts 'Correct guess! Keep going.'
-          puts 'Would you like to save Y/N?'
-          save_bool = gets.chomp.downcase
-          if save_bool == 'y'
-            save_game
-          end
+          save_game
         else
           puts "Congratulations! You guessed the word: #{@word}"
           return
@@ -69,11 +66,7 @@ class HangmanGame
       else
         @attempts -= 1
         puts "Wrong guess! Attempts left: #{@attempts}"
-        puts 'Would you like to save Y/N?'
-        save_bool = gets.chomp.downcase
-        if save_bool == 'y'
-          save_game
-        end
+        save_game
       end
     end
 
@@ -81,7 +74,7 @@ class HangmanGame
   end
 end
 
-puts "is this a new game?Y/N"
+puts "load a saved file?Y/N"
 ans = gets.chomp.downcase
 
 if ans == 'y'
