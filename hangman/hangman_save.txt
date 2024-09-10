@@ -1,1 +1,1 @@
-{"@attempts":5,"@file_path":"google-10000-english-no-swears.txt","@word":"clusters","@word_blank":"c l u s _ e _ s "}
+{"@attempts":0,"@file_path":"google-10000-english-no-swears.txt","@word":"model","@word_blank":"_ o _ e l "}
