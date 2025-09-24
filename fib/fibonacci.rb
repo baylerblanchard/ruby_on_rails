@@ -1,11 +1,23 @@
 num = 8
 
-def fibonacci(num)
-  if num == 0
-    return 0
-  elif num == 1
-    return 1
-  else
-    return fibonacci(num - 1) + fibonacci(num - 2)
-  end
+def fibonacci(n)
+  return nil if n <= 0
+  recursive_fib(n - 1)
 end
+
+def recursive_fib(n)
+  return n if n <= 1
+  recursive_fib(n - 1) + recursive_fib(n - 2)
+end
+
+puts fibonacci(num)
+
+def fib_seq(num)
+  fib_array = []
+  (1..num).each do |i|
+    fib_array << fibonacci(i)
+  end
+  fib_array
+end
+
+p fib_seq(num)
