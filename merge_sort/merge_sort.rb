@@ -1,1 +1,7 @@
-create the merge sort funtion that i will work on tomorrow.
+def merge_sort[arr]
+  len = arr.length
+  if arr.length <= 1
+    return arr
+  end
+  
+end
