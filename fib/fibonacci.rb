@@ -1,7 +1,7 @@
-num = 8
+num = 37
 
 def fibonacci(n)
-  return nil if n <= 0
+  return n if n <= 0
   recursive_fib(n - 1)
 end
 
@@ -10,7 +10,6 @@ def recursive_fib(n)
   recursive_fib(n - 1) + recursive_fib(n - 2)
 end
 
-puts fibonacci(num)
 
 def fib_seq(num)
   fib_array = []
@@ -19,5 +18,7 @@ def fib_seq(num)
   end
   fib_array
 end
+
+p fibonacci(num)
 
 p fib_seq(num)
