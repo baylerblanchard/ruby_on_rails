@@ -1,4 +1,4 @@
-arr = [98,12,76,23,73,28,63,2,1]
+arr = [98,12,76,23]
 
 def merge_sort(arr)
   if arr.length <= 1
@@ -10,9 +10,6 @@ def merge_sort(arr)
 
   p left_arr
   p right_arr
-  merge_sort(left_arr)
-  merge_sort(right_arr)
-  return
 end
 
 merge_sort(arr)
