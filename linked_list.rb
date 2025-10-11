@@ -24,7 +24,7 @@ class LinkedList
   end
 
   def add_bottom(new_value)
-    new_node = Node.new(new_value, @head)
+    new_node = Node.new(new_value)
 
     if @head.nil?
       @head = new_node
@@ -32,11 +32,22 @@ class LinkedList
     end
 
     current_node = @head
-    while !current_node.next_node.nil?
+    while current_node.next_node
       current_node = current_node.next_node
     end
 
     current_node.next_node = new_node
+  end
+
+  def get(index)
+    current_node = @head
+    current_index = 0
+
+    while !current_node.nil? && current_index < index
+      current_node = current_node.next_node
+      current_index += 1
+    end
+    puts current_node.value
   end
 
   def print_list
@@ -60,5 +71,7 @@ list.add_top(25)
 list.add_top(2.65)
 list.add_top(try_hard)
 list.add_bottom('bayler')
+
+list.get(4)
 
 list.print_list
