@@ -17,4 +17,13 @@ class LinkedList
   def initialize
     @head = nil
   end
+
+  def add_top(new_value)
+    top_node = Node.new(new_value, @head)
+    @head = top_node
+  end
 end
+
+list = LinkedList.new
+
+puts list.add_top('hello')
