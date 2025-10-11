@@ -22,8 +22,26 @@ class LinkedList
     top_node = Node.new(new_value, @head)
     @head = top_node
   end
+
+  def print_list
+    return puts 'list is empty' if @head.nil?
+
+    current_node = @head
+    while current_node
+      print "#{current_node.value} -> "
+      current_node = current_node.next_node
+    end
+    puts 'nil'
+  end
 end
 
+try_hard = 'ben'
 list = LinkedList.new
 
-puts list.add_top('hello')
+list.add_top('hello')
+list.add_top('world')
+list.add_top(25)
+list.add_top(2.65)
+list.add_top(try_hard)
+
+list.print_list
