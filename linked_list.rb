@@ -23,6 +23,22 @@ class LinkedList
     @head = top_node
   end
 
+  def add_bottom(new_value)
+    new_node = Node.new(new_value, @head)
+
+    if @head.nil?
+      @head = new_node
+      return
+    end
+
+    current_node = @head
+    while !current_node.next_node.nil?
+      current_node = current_node.next_node
+    end
+
+    current_node.next_node = new_node
+  end
+
   def print_list
     return puts 'list is empty' if @head.nil?
 
@@ -43,5 +59,6 @@ list.add_top('world')
 list.add_top(25)
 list.add_top(2.65)
 list.add_top(try_hard)
+list.add_bottom('bayler')
 
 list.print_list
