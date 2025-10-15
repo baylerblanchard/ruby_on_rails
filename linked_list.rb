@@ -50,8 +50,8 @@ class LinkedList
     puts current_node.value
   end
 
-  def head
-
+  def return_head
+    @head.value
   end
 
   def tail
@@ -90,3 +90,5 @@ list.add_bottom('bayler')
 list.get(4)
 
 list.print_list
+
+puts list.return_head
