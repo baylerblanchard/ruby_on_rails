@@ -51,15 +51,18 @@ class LinkedList
   end
 
   def head
-    
+
   end
 
   def tail
     current_node = @head
-    
-    while !current_node.nil? 
-      
+    index = 0
+
+    while !current_node.nil?
+      current_node = current_node.next_node
+      index += 1
     end
+    puts current_node
   end
 
   def print_list
