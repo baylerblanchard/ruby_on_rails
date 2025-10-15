@@ -50,6 +50,18 @@ class LinkedList
     puts current_node.value
   end
 
+  def head
+    
+  end
+
+  def tail
+    current_node = @head
+    
+    while !current_node.nil? 
+      
+    end
+  end
+
   def print_list
     return puts 'list is empty' if @head.nil?
 
