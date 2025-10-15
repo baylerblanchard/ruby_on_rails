@@ -56,13 +56,14 @@ class LinkedList
 
   def tail
     current_node = @head
-    index = 0
 
-    while !current_node.nil?
-      if current_node.next_node.nil?
-        puts current_node
-      end
+    return nil if @head.nil?
+
+    while !current_node.next_node.nil?
+      current_node = current_node.next_node
     end
+
+    return current_node.value
   end
 
   def print_list
@@ -93,4 +94,4 @@ list.print_list
 
 puts list.return_head
 
-list.tail
+puts list.tail
