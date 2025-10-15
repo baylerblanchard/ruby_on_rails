@@ -59,10 +59,10 @@ class LinkedList
     index = 0
 
     while !current_node.nil?
-      current_node = current_node.next_node
-      index += 1
+      if current_node.next_node.nil?
+        puts current_node
+      end
     end
-    puts current_node
   end
 
   def print_list
@@ -92,3 +92,5 @@ list.get(4)
 list.print_list
 
 puts list.return_head
+
+list.tail
