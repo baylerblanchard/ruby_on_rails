@@ -54,8 +54,15 @@ class LinkedList
     @head.value
   end
 
-  def contains?
-    
+  def contains?(value)
+    current_node = @head
+    while !current_node.nil?
+      if current_node.value == value
+        return true
+      end
+      current_node = current_node.next_node
+    end
+    return false
   end
 
   def tail
@@ -99,3 +106,4 @@ list.print_list
 puts list.return_head
 
 puts list.tail
+puts list.contains?('bayler')
