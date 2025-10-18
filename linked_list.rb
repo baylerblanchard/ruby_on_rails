@@ -54,12 +54,16 @@ class LinkedList
     @head.value
   end
 
+  def contains?
+    
+  end
+
   def tail
     current_node = @head
 
     return nil if @head.nil?
 
-    while !current_node.next_node.nil?
+    until current_node.next_node.nil?
       current_node = current_node.next_node
     end
 
