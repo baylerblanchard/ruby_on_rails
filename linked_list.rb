@@ -39,6 +39,18 @@ class LinkedList
     current_node.next_node = new_node
   end
 
+  def size
+    count = 0
+    current_node = @head
+
+    while !current_node.nil?
+      count += 1
+      current_node = current_node.next_node
+    end
+
+    puts "the size of this linked list is: #{count}"
+  end
+
   def get(index)
     current_node = @head
     current_index = 0
@@ -107,3 +119,5 @@ puts list.return_head
 
 puts list.tail
 puts list.contains?('bayler')
+
+list.size
