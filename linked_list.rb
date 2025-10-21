@@ -39,6 +39,17 @@ class LinkedList
     current_node.next_node = new_node
   end
 
+  def pop
+    return nil if @head.nil?
+    if @head.next_node.nil?
+      pop_value = @head.value
+      @head = nil
+      return pop_value
+    end
+    current_node = @head
+    
+  end
+
   def size
     count = 0
     current_node = @head
@@ -110,7 +121,9 @@ list.add_top(25)
 list.add_top(2.65)
 list.add_top(try_hard)
 list.add_bottom('bayler')
-
+list.add_top(42)
+list.add_bottom('blue jays')
+list.add_bottom('yankees')
 list.get(4)
 
 list.print_list
@@ -118,6 +131,8 @@ list.print_list
 puts list.return_head
 
 puts list.tail
-puts list.contains?('bayler')
+puts list.contains?('bluejays')
 
 list.size
+list.pop
+list.print_list
