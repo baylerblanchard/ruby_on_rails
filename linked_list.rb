@@ -41,13 +41,23 @@ class LinkedList
 
   def pop
     return nil if @head.nil?
+
     if @head.next_node.nil?
-      pop_value = @head.value
+      value_to_return = @head.value
       @head = nil
-      return pop_value
+      return value_to_return
     end
+
     current_node = @head
-    
+    while !current_node.next_node.next_node.nil?
+      current_node = current_node.next_node
+    end
+
+    value_to_return = current_node.next_node.value
+
+    current_node.next_node = nil
+
+    return value_to_return
   end
 
   def size
@@ -134,5 +144,5 @@ puts list.tail
 puts list.contains?('bluejays')
 
 list.size
-list.pop
+puts list.pop
 list.print_list
