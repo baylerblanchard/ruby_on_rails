@@ -10,5 +10,9 @@ class HashMap
     key.each_char { |char| hash_code = prime_number * hash_code + char.ord }
 
     hash_code
- end
+  end
+
+  def set(key, value)
+    
+  end
 end
