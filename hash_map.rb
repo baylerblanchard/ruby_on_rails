@@ -93,6 +93,19 @@ class HashMap
     @buckets.flatten(1).map { |pair| pair[1] }
   end
 
+  def entries
+    @buckets.flatten(1)
+  end
+
+  def print_buckets
+    puts "--- Buckets (Size: #{@size}, Capacity: #{@capacity}) ---"
+    @buckets.each_with_index do |bucket, index|
+      puts "  [#{index}]: #{bucket.inspect}" unless bucket.empty?
+    end
+    puts '--------------------------------------------------------'
+  end
+
+  private
   
 
   def get_index(key)
