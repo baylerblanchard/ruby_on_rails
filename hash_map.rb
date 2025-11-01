@@ -24,7 +24,6 @@ class HashMap
   end
 
   def set(key, value)
-    def set(key, value)
     resize if (@size.to_f / @capacity) >= @load_factor
 
     index = get_index(key)
@@ -43,4 +42,16 @@ class HashMap
     end
     end
   end
+
+  def get(key)
+    index = get_index(key)
+    bucket = @buckets[index]
+
+    pair = bucket.find { |p| p[0] == key }
+    
+    # Return the value (pair[1]) if pair is found, otherwise return nil
+    pair ? pair[1] : nil
+  end
+
+
 end
