@@ -24,7 +24,23 @@ class HashMap
   end
 
   def set(key, value)
-    hash(value)
+    def set(key, value)
+    resize if (@size.to_f / @capacity) >= @load_factor
 
+    index = get_index(key)
+    bucket = @buckets[index]
+
+    # Look for the key in the bucket
+    existing_pair = bucket.find { |pair| pair[0] == key }
+
+    if existing_pair
+      # Key found, update the value
+      existing_pair[1] = value
+    else
+      # Key not found, append the new [key, value] pair
+      bucket << [key, value]
+      @size += 1
+    end
+    end
   end
 end
