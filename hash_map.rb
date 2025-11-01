@@ -129,10 +129,4 @@ class HashMap
     end
   end
 
-
-  def get_index(key)
-    hash_code = hash(key)
-    # Use modulo to ensure the index is within the @capacity
-    hash_code % @capacity
-  end
 end
