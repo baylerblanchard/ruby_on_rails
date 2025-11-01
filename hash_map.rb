@@ -40,7 +40,6 @@ class HashMap
       bucket << [key, value]
       @size += 1
     end
-    end
   end
 
   def get(key)
@@ -48,10 +47,14 @@ class HashMap
     bucket = @buckets[index]
 
     pair = bucket.find { |p| p[0] == key }
-    
+
     # Return the value (pair[1]) if pair is found, otherwise return nil
     pair ? pair[1] : nil
   end
 
-
+  def get_index(key)
+    hash_code = hash(key)
+    # Use modulo to ensure the index is within the @capacity
+    hash_code % @capacity
+  end
 end
