@@ -52,6 +52,30 @@ class HashMap
     pair ? pair[1] : nil
   end
 
+  def has?(key)
+    # We can just check if get(key) returns something other than nil
+    !get(key).nil?
+  end
+
+  def remove(key)
+    index = get_index(key)
+    bucket = @buckets[index]
+
+    pair = bucket.find { |p| p[0] == key }
+
+    if pair
+      # Use delete_if for efficient removal from the bucket array
+      bucket.delete_if { |p| p[0] == key }
+      @size -= 1
+      return pair[1] # Return the value
+    end
+
+    # Key not found
+    nil
+  end
+
+
+
   def get_index(key)
     hash_code = hash(key)
     # Use modulo to ensure the index is within the @capacity
