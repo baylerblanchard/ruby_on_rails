@@ -106,7 +106,29 @@ class HashMap
   end
 
   private
-  
+
+  def get_index(key)
+    hash_code = hash(key)
+    # Use modulo to ensure the index is within the @capacity
+    hash_code % @capacity
+  end
+
+  # Doubles the capacity and re-hashes all existing entries.
+  def resize
+    old_buckets = @buckets
+    @capacity *= 2 # Double the capacity
+    # Reset size and buckets, as `set` will repopulate them
+    @size = 0
+    @buckets = Array.new(@capacity) { [] }
+
+    puts "\n--- RESIZING: New Capacity: #{@capacity} ---"
+
+    # Re-hash all old entries into the new, larger buckets
+    old_buckets.flatten(1).each do |pair|
+      set(pair[0], pair[1]) # Use set to re-hash and place
+    end
+  end
+
 
   def get_index(key)
     hash_code = hash(key)
