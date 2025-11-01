@@ -74,7 +74,26 @@ class HashMap
     nil
   end
 
+  def length
+    @size
+  end
 
+  def clear
+    @capacity = DEFAULT_CAPACITY
+    @buckets = Array.new(@capacity) { [] }
+    @size = 0
+  end
+
+  def keys
+    # Iterate all buckets, flatten into one array of pairs, then map to keys
+    @buckets.flatten(1).map { |pair| pair[0] }
+  end
+
+  def values
+    @buckets.flatten(1).map { |pair| pair[1] }
+  end
+
+  
 
   def get_index(key)
     hash_code = hash(key)
