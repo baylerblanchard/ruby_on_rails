@@ -9,5 +9,12 @@ class Node
     @left = nil
     @right = nil
   end
+end
 
+class Tree
+  attr_accessor :root, :data
+
+  def initialize(array)
+    
+  end
 end
