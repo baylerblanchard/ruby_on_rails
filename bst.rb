@@ -11,10 +11,12 @@ class Node
   end
 end
 
+# Tree class for bst
 class Tree
   attr_accessor :root, :data
 
   def initialize(array)
-    
+    @data = array.sort.uniq
+    @root = build_tree(data)
   end
 end
