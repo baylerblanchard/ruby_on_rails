@@ -26,6 +26,6 @@ class Tree
   end
 end
 
-mytree = Tree.new([43, 23, 63, 1, 52, 85, 21, 87, 443, 643, 34])
+mytree = Tree.new([43, 23, 63, 1, 52, 85, 21, 87, 443, 643, 34, 555])
 
-puts mytree
+puts mytree.root
