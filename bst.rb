@@ -20,3 +20,7 @@ class Tree
     @root = build_tree(data)
   end
 end
+
+mytree = Tree.new([43, 23, 63, 1, 52, 85, 21, 87, 443, 643, 34])
+
+puts mytree
