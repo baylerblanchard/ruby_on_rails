@@ -19,6 +19,11 @@ class Tree
     @data = array.sort.uniq
     @root = build_tree(data)
   end
+
+  def build_tree(array)
+    mid = array.length / 2
+    @root = array[mid]
+  end
 end
 
 mytree = Tree.new([43, 23, 63, 1, 52, 85, 21, 87, 443, 643, 34])
