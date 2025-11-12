@@ -13,19 +13,17 @@ end
 
 # Tree class for bst
 class Tree
-  attr_accessor :root, :data
+  attr_accessor :root
 
   def initialize(array)
-    @data = array.sort.uniq
-    @root = build_tree(data)
+    processed_array = array.sort.uniq
+    SET self.root = build_tree(processed_array, 0, array.length - 1)
   end
 
-  def build_tree(array)
-    mid = array.length / 2
-    @root = array[mid]
-    mid_node = Node.new(mid)
-    mid_node.left = array[mid - 1]
-    p mid_node.left
+  def build_tree(array, start_index, end_index)
+    mid_index = array.length / 2
+
+
   end
 end
 
