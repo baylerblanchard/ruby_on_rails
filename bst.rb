@@ -17,14 +17,15 @@ class Tree
 
   def initialize(array)
     processed_array = array.sort.uniq
-    @root = build_tree(processed_array, 0, processed_array.length-1)
+    @root = build_tree(processed_array, 0, processed_array.length - 1)
   end
 
   def build_tree(array, start_index, end_index)
     mid_index = array.length / 2
-    @root = Node.new(array[mid_index])
+    new_node = Node.new(array[mid_index])
 
-
+    new_node.left = build_tree(array, start_index, mid_index - 1)
+    new_node.right = build_tree(array, mid_index + 1, end_index)
   end
 end
 
