@@ -17,11 +17,12 @@ class Tree
 
   def initialize(array)
     processed_array = array.sort.uniq
-    SET self.root = build_tree(processed_array, 0, array.length - 1)
+    @root = build_tree(processed_array, 0, processed_array.length-1)
   end
 
   def build_tree(array, start_index, end_index)
     mid_index = array.length / 2
+    @root = Node.new(array[mid_index])
 
 
   end
@@ -29,5 +30,5 @@ end
 
 mytree = Tree.new([43, 23, 63, 1, 52, 85, 21, 87, 443, 643, 34, 555])
 
-puts mytree.root
-puts mytree.data
+p mytree.root
+p mytree
