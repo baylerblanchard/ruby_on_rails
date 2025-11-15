@@ -17,6 +17,7 @@ class Tree
 
   def initialize(array)
     processed_array = array.sort.uniq
+    puts processed_array
     @root = build_tree(processed_array, 0, processed_array.length - 1)
   end
 
@@ -31,7 +32,7 @@ class Tree
     new_node.left = build_tree(array, start_index, mid_index - 1)
     new_node.right = build_tree(array, mid_index + 1, end_index)
 
-    return new_node
+    new_node
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -44,4 +45,4 @@ end
 
 mytree = Tree.new([43, 23, 63, 1, 52, 85, 21, 87, 443, 643, 34, 555])
 
-mytree.pretty_print
+p mytree.root
