@@ -40,8 +40,12 @@ class Tree
     pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
   end
 
-  def insert(value)
+  def insert(value, node = @root)
+    return @root = Node.new(value) if @root.nil?
+    return Node.new(value) if node.nil?
 
+    value < node.data ? node.left = insert(value, node.left) : node.right = insert(value, node.right)
+    node
   end
 end
 
@@ -52,4 +56,8 @@ mytree = Tree.new(new_array)
 p mytree.root
 mytree.pretty_print
 
-puts new_array.sort.uniq
+mytree.insert(69)
+mytree.insert(12)
+mytree.insert(12_892)
+
+mytree.pretty_print
