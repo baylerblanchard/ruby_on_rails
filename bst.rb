@@ -47,6 +47,15 @@ class Tree
     value < node.data ? node.left = insert(value, node.left) : node.right = insert(value, node.right)
     node
   end
+
+  def delete(value, node = @root)
+    return node if node.nil?
+
+    current_node = node
+    if value < current_node.data
+      
+    end
+  end
 end
 
 new_array = [43, 23, 63, 1, 52, 85, 21, 87, 443, 643, 34, 555, 16]
