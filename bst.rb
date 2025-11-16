@@ -51,12 +51,26 @@ class Tree
   def delete(value, node = @root)
     return node if node.nil?
 
-    current_node = node
-    if value < current_node.data
-      current_node.left = delete(value, current_node.left)
-    elseif value > current_node.data
-      current_node.right = delete(value, current_node.right)
+    if value < node.data
+      node.left = delete(value, node.left)
+    elsif value > node.data
+      node.right = delete(value, node.right)
+    else
+      # Node to be deleted is found
+
+      # Case 1: Node with only one child or no child
+      return node.right if node.left.nil?
+      return node.left if node.right.nil?
+
+      # Case 2: Node with two children
+      # Get the in-order successor (smallest in the right subtree)
+      temp = next_min(node.right)
+      # Copy the in-order successor's data to this node
+      node.data = temp.data
+      # Delete the in-order successor
+      node.right = delete(temp.data, node.right)
     end
+    node
   end
 
   private
@@ -79,5 +93,12 @@ mytree.pretty_print
 mytree.insert(69)
 mytree.insert(12)
 mytree.insert(12_892)
+
+mytree.pretty_print
+
+mytree.delete(69)
+mytree.delete(12)
+
+mytree.delete(1234)
 
 mytree.pretty_print
