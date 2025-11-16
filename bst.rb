@@ -53,9 +53,20 @@ class Tree
 
     current_node = node
     if value < current_node.data
-      
+      current_node.left = delete(value, current_node.left)
+    elseif value > current_node.data
+      current_node.right = delete(value, current_node.right)
     end
   end
+
+  private
+
+  def next_min(node)
+    current = node
+    current = current.left until current.left.nil?
+    current
+  end
+
 end
 
 new_array = [43, 23, 63, 1, 52, 85, 21, 87, 443, 643, 34, 555, 16]
