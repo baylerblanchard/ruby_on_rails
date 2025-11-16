@@ -35,6 +35,8 @@ class Tree
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
+    return if node.nil?
+
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
     pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
@@ -73,6 +75,65 @@ class Tree
     node
   end
 
+  def find(value, node = @root)
+    return nil if node.nil?
+    return node if node.data == value
+
+    if value < node.data
+      find(value, node.left)
+    else
+      find(value, node.right)
+    end
+  end
+
+  def level_order
+    return [] if @root.nil?
+
+    queue = [@root]
+    result = []
+    until queue.empty?
+      current = queue.shift
+      if block_given?
+        yield current
+      else
+        result << current.data
+      end
+      queue << current.left unless current.left.nil?
+      queue << current.right unless current.right.nil?
+    end
+    result unless block_given?
+  end
+
+  def inorder(node = @root, result = [], &block)
+    return result if node.nil? && !block_given?
+    return if node.nil?
+
+    inorder(node.left, result, &block)
+    block_given? ? yield(node) : result << node.data
+    inorder(node.right, result, &block)
+    result unless block_given?
+  end
+
+  def preorder(node = @root, result = [], &block)
+    return result if node.nil? && !block_given?
+    return if node.nil?
+
+    block_given? ? yield(node) : result << node.data
+    preorder(node.left, result, &block)
+    preorder(node.right, result, &block)
+    result unless block_given?
+  end
+
+  def postorder(node = @root, result = [], &block)
+    return result if node.nil? && !block_given?
+    return if node.nil?
+
+    postorder(node.left, result, &block)
+    postorder(node.right, result, &block)
+    block_given? ? yield(node) : result << node.data
+    result unless block_given?
+  end
+
   private
 
   def next_min(node)
@@ -80,7 +141,6 @@ class Tree
     current = current.left until current.left.nil?
     current
   end
-
 end
 
 new_array = [43, 23, 63, 1, 52, 85, 21, 87, 443, 643, 34, 555, 16]
@@ -102,3 +162,24 @@ mytree.delete(12)
 mytree.delete(1234)
 
 mytree.pretty_print
+
+puts 'Finding 23:'
+found_node = mytree.find(23)
+if found_node
+  puts 'Found node 23! Here is the subtree from that node:'
+  mytree.pretty_print(found_node)
+else
+  puts 'Node 52 not found.'
+end
+
+puts 'Finding 1:'
+p mytree.find(1)
+
+puts "\nIn-order traversal:"
+p mytree.inorder
+puts "\nPre-order traversal:"
+p mytree.preorder
+puts "\nPost-order traversal:"
+p mytree.postorder
+puts "\nLevel-order traversal:"
+p mytree.level_order
