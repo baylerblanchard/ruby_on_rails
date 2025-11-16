@@ -134,12 +134,36 @@ class Tree
     result unless block_given?
   end
 
+  def height(node)
+    return -1 if node.nil?
+
+    1 + [height(node.left), height(node.right)].max
+  end
+
+  def balanced?
+    check_balance(@root) != -1
+  end
+
   private
 
   def next_min(node)
     current = node
     current = current.left until current.left.nil?
     current
+  end
+
+  def check_balance(node)
+    return 0 if node.nil?
+
+    left_height = check_balance(node.left)
+    return -1 if left_height == -1
+
+    right_height = check_balance(node.right)
+    return -1 if right_height == -1
+
+    return -1 if (left_height - right_height).abs > 1
+
+    [left_height, right_height].max + 1
   end
 end
 
@@ -183,3 +207,12 @@ puts "\nPost-order traversal:"
 p mytree.postorder
 puts "\nLevel-order traversal:"
 p mytree.level_order
+
+puts "\nIs the tree balanced?"
+p mytree.balanced?
+
+puts "\nAdding a few more nodes to unbalance the tree..."
+mytree.insert(13_000)
+mytree.insert(14_000)
+puts "Is the tree balanced now?"
+p mytree.balanced?
