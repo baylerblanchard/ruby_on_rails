@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-Class KnightTravils
-BOARD_SIZE = 8
+class KnightTravils
+  BOARD_SIZE = 8
 
-def print_board(path = [])
+  def print_board(path = [])
     puts "\n  " + (0...BOARD_SIZE).map { |i| " #{i} " }.join
     puts "  " + "-" * (BOARD_SIZE * 3)
 
@@ -15,7 +15,7 @@ def print_board(path = [])
       row_string = "#{y}|"
       (0...BOARD_SIZE).each do |x|
         current_pos = [x, y]
-        
+
         if path.include?(current_pos)
           # If this square is in the path, print its step number
           step_index = path.index(current_pos)
@@ -35,8 +35,7 @@ def print_board(path = [])
     end
     puts "  " + "-" * (BOARD_SIZE * 3)
   end
-
-
 end
+play = KnightTravils.new
 
-new
+play.print_board
