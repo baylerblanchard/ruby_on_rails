@@ -35,6 +35,36 @@ class KnightTravils
     end
     puts "  " + "-" * (BOARD_SIZE * 3)
   end
+
+  # The Main Logic: Breadth-First Search to find the shortest path
+  def find_path(start_pos, end_pos)
+    # Queue holds paths (arrays of coordinates). 
+    # Start with a path containing just the starting position.
+    queue = [ [start_pos] ]
+    
+    # Keep track of visited squares to avoid infinite loops
+    visited = [start_pos]
+
+    until queue.empty?
+      # Dequeue the first path
+      current_path = queue.shift
+      current_pos = current_path.last
+
+      # Check if we reached the destination
+      return current_path if current_pos == end_pos
+
+      # Explore neighbors
+      valid_moves(current_pos).each do |move|
+        unless visited.include?(move)
+          visited << move
+          # Create a new path extending the current one
+          new_path = current_path + [move]
+          queue << new_path
+        end
+      end
+    end
+  end
+
 end
 play = KnightTravils.new
 
