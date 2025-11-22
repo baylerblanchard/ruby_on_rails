@@ -14,7 +14,7 @@ class KnightTravils
 
     MOVES.each do |dx, dy|
       new_pos = [x + dx, y + dy]
-      
+
       # Check if the new position is on the board
       if new_pos[0].between?(0, BOARD_SIZE - 1) && 
          new_pos[1].between?(0, BOARD_SIZE - 1)
@@ -26,31 +26,30 @@ class KnightTravils
   end
 
   def print_board(path = [])
+    # NEW: Print the text version of the route
+    unless path.empty?
+      puts "Route: #{path.map(&:to_s).join(" -> ")}"
+    end
+
     puts "\n  " + (0...BOARD_SIZE).map { |i| " #{i} " }.join
     puts "  " + "-" * (BOARD_SIZE * 3)
 
-    # Iterate through rows (usually y-axis in 2D grids)
-    # We reverse 0..7 so that index 0,0 is at the bottom-left (Cartesian style)
-    # or keep it normal for Matrix style (0,0 top-left).
-    # Standard chess boards have rank 8 at the top, so let's reverse the rows.
     (0...BOARD_SIZE).to_a.reverse.each do |y|
       row_string = "#{y}|"
       (0...BOARD_SIZE).each do |x|
         current_pos = [x, y]
 
         if path.include?(current_pos)
-          # If this square is in the path, print its step number
           step_index = path.index(current_pos)
           if step_index == 0
-            row_string += " S " # Start
+            row_string += ' S '
           elsif step_index == path.length - 1
-            row_string += " E " # End
+            row_string += ' E '
           else
             row_string += " #{step_index} "
           end
         else
-          # Empty square
-          row_string += " . " 
+          row_string += ' . '
         end
       end
       puts row_string
@@ -58,12 +57,13 @@ class KnightTravils
     puts "  " + "-" * (BOARD_SIZE * 3)
   end
 
+
   # The Main Logic: Breadth-First Search to find the shortest path
   def find_path(start_pos, end_pos)
-    # Queue holds paths (arrays of coordinates). 
+    # Queue holds paths (arrays of coordinates).
     # Start with a path containing just the starting position.
     queue = [[start_pos]]
-    
+
     # Keep track of visited squares to avoid infinite loops
     visited = [start_pos]
 
@@ -86,9 +86,12 @@ class KnightTravils
       end
     end
   end
-
 end
+
+finder = KnightTravils.new
 play = KnightTravils.new
 
 play.print_board
 play.find_path([0, 0], [1, 1])
+path2 = finder.find_path([0, 0], [7, 0])
+finder.print_board(path2)
