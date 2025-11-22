@@ -3,6 +3,28 @@
 class KnightTravils
   BOARD_SIZE = 8
 
+  MOVES = [
+    [1, 2], [1, -2], [-1, 2], [-1, -2],
+    [2, 1], [2, -1], [-2, 1], [-2, -1]
+  ]
+
+  def valid_moves(pos)
+    x, y = pos
+    valid_positions = []
+
+    MOVES.each do |dx, dy|
+      new_pos = [x + dx, y + dy]
+      
+      # Check if the new position is on the board
+      if new_pos[0].between?(0, BOARD_SIZE - 1) && 
+         new_pos[1].between?(0, BOARD_SIZE - 1)
+        valid_positions << new_pos
+      end
+    end
+
+    valid_positions
+  end
+
   def print_board(path = [])
     puts "\n  " + (0...BOARD_SIZE).map { |i| " #{i} " }.join
     puts "  " + "-" * (BOARD_SIZE * 3)
@@ -40,7 +62,7 @@ class KnightTravils
   def find_path(start_pos, end_pos)
     # Queue holds paths (arrays of coordinates). 
     # Start with a path containing just the starting position.
-    queue = [ [start_pos] ]
+    queue = [[start_pos]]
     
     # Keep track of visited squares to avoid infinite loops
     visited = [start_pos]
@@ -69,3 +91,4 @@ end
 play = KnightTravils.new
 
 play.print_board
+play.find_path([0, 0], [1, 1])
