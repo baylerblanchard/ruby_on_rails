@@ -16,7 +16,7 @@ class KnightTravils
       new_pos = [x + dx, y + dy]
 
       # Check if the new position is on the board
-      if new_pos[0].between?(0, BOARD_SIZE - 1) && 
+      if new_pos[0].between?(0, BOARD_SIZE - 1) &&
          new_pos[1].between?(0, BOARD_SIZE - 1)
         valid_positions << new_pos
       end
@@ -29,6 +29,7 @@ class KnightTravils
     # NEW: Print the text version of the route
     unless path.empty?
       puts "Route: #{path.map(&:to_s).join(" -> ")}"
+      puts "It took #{path.length - 1} moves to get to the end."
     end
 
     puts "\n  " + (0...BOARD_SIZE).map { |i| " #{i} " }.join
@@ -93,5 +94,5 @@ play = KnightTravils.new
 
 play.print_board
 play.find_path([0, 0], [1, 1])
-path2 = finder.find_path([0, 0], [7, 0])
+path2 = finder.find_path([0, 0], [5, 7])
 finder.print_board(path2)
