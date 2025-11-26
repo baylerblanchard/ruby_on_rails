@@ -8,4 +8,11 @@ class Calculator
     end
     sum
   end
+
+  def multiply(*nums)
+    product = 0
+    nums.each do |num|
+      product *= num
+    end
+  end
 end
