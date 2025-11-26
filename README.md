@@ -9,3 +9,6 @@ worked on the next lesson
 keep grinding this will matter
 it will all be worth it
 be more consistent. it will all be worth it
+
+
+work on the knight prevails tomorrow at work.
