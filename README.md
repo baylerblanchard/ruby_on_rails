@@ -12,3 +12,4 @@ be more consistent. it will all be worth it
 
 
 work on the knight prevails tomorrow at work.
+finish the next section of the odin project tomorrow at work.
