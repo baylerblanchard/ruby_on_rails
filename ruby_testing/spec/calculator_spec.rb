@@ -5,7 +5,7 @@ describe Calculator do
     it "returns the sum of two numbers" do
       # removed for brevity
     end
-   
+
     # add this
     it "returns the sum of more than two numbers" do
       calculator = Calculator.new
@@ -13,10 +13,10 @@ describe Calculator do
     end
   end
 
-  describe "#multiply" do 
+  describe "#multiply" do
     it "returns the product of more than two numbers" do
       calculator = Calculator.new
-      expect(calculator.multiply(2, 3, 6).to eql(36))
+      expect(calculator.multiply(2, 3, 6)).to eql(36)
     end
   end
 end
