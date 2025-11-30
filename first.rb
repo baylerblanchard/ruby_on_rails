@@ -22,6 +22,7 @@ puts "#{first_name} #{last_name} is finally hard"
 # array exercises
 a = []
 
+
 a << 1
 a << first_name
 
