@@ -51,10 +51,11 @@ end
 
 # You would create similar classes for King, Queen, Bishop, Knight, and Pawn.
 class Board
-  attr_reader :grid
+  attr_reader :grid, :captured_pieces
 
   def initialize
     @grid = Array.new(8) { Array.new(8) }
+    @captured_pieces = { white: [], black: [] }
     setup_pieces
   end
 
@@ -68,14 +69,21 @@ class Board
   end
 
   def move_piece(start_pos, end_pos)
-    piece = @grid[start_pos[0]][start_pos[1]]
-    return false if piece.nil? # No piece to move
+    moving_piece = @grid[start_pos[0]][start_pos[1]]
+    return nil if moving_piece.nil? # No piece to move
 
     # TODO: Add move validation logic here.
+    # A real move validation would check if the target square contains a friendly piece.
 
-    @grid[end_pos[0]][end_pos[1]] = piece
+    captured_piece = @grid[end_pos[0]][end_pos[1]]
+    if captured_piece
+      # Add the captured piece to the appropriate list
+      @captured_pieces[captured_piece.color] << captured_piece
+    end
+
+    @grid[end_pos[0]][end_pos[1]] = moving_piece
     @grid[start_pos[0]][start_pos[1]] = nil
-    true
+    captured_piece # Return the captured piece, or nil
   end
 
   private
@@ -135,8 +143,13 @@ class Game
       end_pos = algebraic_to_coords(end_alg)
 
       if start_pos && end_pos
+        moving_piece = @board.grid[start_pos[0]][start_pos[1]]
         # TODO: Validate the move based on chess rules and current player.
-        if @board.move_piece(start_pos, end_pos)
+        if moving_piece
+          captured_piece = @board.move_piece(start_pos, end_pos)
+          if captured_piece
+            puts "#{captured_piece.class} (#{captured_piece.to_s}) was captured!"
+          end
           switch_player
         else
           puts "Invalid move. There is no piece at #{start_alg}."
