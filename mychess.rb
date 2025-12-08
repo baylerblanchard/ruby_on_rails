@@ -47,6 +47,30 @@ class Pawn < Piece
   def to_s
     @color == :white ? '♙' : '♟'
   end
+
+  # Returns an array of possible end positions
+  def valid_moves(current_pos, board)
+    moves = []
+    row, col = current_pos
+    grid = board.grid
+
+    # Direction depends on color
+    direction = (@color == :white) ? -1 : 1
+
+    # 1. Standard one-step forward
+    one_step = [row + direction, col]
+    moves << one_step if board.in_bounds?(one_step) && grid[one_step[0]][one_step[1]].nil?
+
+    # 2. Initial two-step forward
+    is_starting_pos = (@color == :white && row == 6) || (@color == :black && row == 1)
+    if is_starting_pos && moves.include?(one_step) # Can only move 2 if 1 is clear
+      two_steps = [row + (2 * direction), col]
+      moves << two_steps if board.in_bounds?(two_steps) && grid[two_steps[0]][two_steps[1]].nil?
+    end
+
+    # TODO: Add diagonal captures
+    moves
+  end
 end
 
 # You would create similar classes for King, Queen, Bishop, Knight, and Pawn.
@@ -84,6 +108,11 @@ class Board
     @grid[end_pos[0]][end_pos[1]] = moving_piece
     @grid[start_pos[0]][start_pos[1]] = nil
     captured_piece # Return the captured piece, or nil
+  end
+
+  # Helper to check if a position is on the board
+  def in_bounds?(pos)
+    pos[0].between?(0, 7) && pos[1].between?(0, 7)
   end
 
   private
@@ -144,15 +173,24 @@ class Game
 
       if start_pos && end_pos
         moving_piece = @board.grid[start_pos[0]][start_pos[1]]
-        # TODO: Validate the move based on chess rules and current player.
-        if moving_piece
+
+        if moving_piece.nil?
+          puts "Invalid move. There is no piece at #{start_alg}."
+        elsif moving_piece.color != @current_player
+          puts "Invalid move. You can only move your own pieces (#{@current_player})."
+        else
+          # Get valid moves for the selected piece
+          possible_moves = moving_piece.valid_moves(start_pos, @board)
+
+          if possible_moves.include?(end_pos)
           captured_piece = @board.move_piece(start_pos, end_pos)
           if captured_piece
             puts "#{captured_piece.class} (#{captured_piece.to_s}) was captured!"
           end
           switch_player
-        else
-          puts "Invalid move. There is no piece at #{start_alg}."
+          else
+            puts "Invalid move for a #{moving_piece.class}."
+          end
         end
       else
         puts "Invalid format. Please use algebraic notation (e.g., 'e2e4')."
