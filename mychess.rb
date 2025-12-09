@@ -10,42 +10,94 @@ class Piece
   def to_s
     ' ' # Placeholder
   end
+
+  # Default implementation for valid_moves. Subclasses should override this.
+  def valid_moves(current_pos, board)
+    [] # Return an empty array by default
+  end
 end
 
 # Example for a Rook
 class Rook < Piece
   def to_s
-    @color == :white ? '♖' : '♜'
+    @color == :white ? '♜' : '♖'
+  end
+
+  def valid_moves(current_pos, board)
+    moves = []
+    row, col = current_pos
+    grid = board.grid
+
+    # Directions: up, down, left, right
+    directions = [[-1, 0], [1, 0], [0, -1], [0, 1]]
+
+    directions.each do |dr, dc|
+      (1..7).each do |i|
+        next_pos = [row + i * dr, col + i * dc]
+        break unless board.in_bounds?(next_pos)
+
+        target_piece = grid[next_pos[0]][next_pos[1]]
+        if target_piece.nil?
+          moves << next_pos # Empty square
+        else
+          moves << next_pos if target_piece.color != @color # Capture
+          break # Blocked by a piece
+        end
+      end
+    end
+    moves
   end
 end
 
 class King < Piece
   def to_s
-    @color == :white ? '♔' : '♚'
+    @color == :white ? '♚' : '♔'
   end
 end
 
 class Queen < Piece
   def to_s
-    @color == :white ? '♕' : '♛'
+    @color == :white ? '♛' : '♕'
   end
 end
 
 class Bishop < Piece
   def to_s
-    @color == :white ? '♗' : '♝'
+    @color == :white ? '♝' : '♗'
   end
 end
 
 class Knight < Piece
   def to_s
-    @color == :white ? '♘' : '♞'
+    @color == :white ? '♞' : '♘'
+  end
+
+  def valid_moves(current_pos, board)
+    moves = []
+    row, col = current_pos
+    grid = board.grid
+
+    # All 8 possible L-shaped moves
+    potential_moves = [
+      [row - 2, col - 1], [row - 2, col + 1],
+      [row - 1, col - 2], [row - 1, col + 2],
+      [row + 1, col - 2], [row + 1, col + 2],
+      [row + 2, col - 1], [row + 2, col + 1]
+    ]
+
+    potential_moves.each do |move|
+      if board.in_bounds?(move)
+        target_piece = grid[move[0]][move[1]]
+        moves << move if target_piece.nil? || target_piece.color != @color
+      end
+    end
+    moves
   end
 end
 
 class Pawn < Piece
   def to_s
-    @color == :white ? '♙' : '♟'
+    @color == :white ? '♟' : '♙'
   end
 
   # Returns an array of possible end positions
@@ -68,7 +120,16 @@ class Pawn < Piece
       moves << two_steps if board.in_bounds?(two_steps) && grid[two_steps[0]][two_steps[1]].nil?
     end
 
-    # TODO: Add diagonal captures
+    # 3. Diagonal captures
+    [col - 1, col + 1].each do |capture_col|
+      capture_pos = [row + direction, capture_col]
+      if board.in_bounds?(capture_pos)
+        target_piece = grid[capture_pos[0]][capture_pos[1]]
+        # Can capture if there's a piece of the opposite color
+        moves << capture_pos if target_piece && target_piece.color != @color
+      end
+    end
+
     moves
   end
 end
@@ -85,8 +146,8 @@ class Board
 
   def display
     puts "  a b c d e f g h"
-    @grid.each_with_index do |row, i|
-      print "#{8 - i} "
+    @grid.each_with_index do |row, row_index|
+      print "#{8 - row_index} "
       puts row.map { |piece| piece.nil? ? '·' : piece.to_s }.join(' ')
     end
     puts "  a b c d e f g h"
@@ -166,6 +227,11 @@ class Game
       puts "Enter your move (e.g., 'e2e4'):"
       
       move = gets.chomp
+      if move.length != 4
+        puts "Invalid format. Please use algebraic notation (e.g., 'e2e4')."
+        next
+      end
+
       start_alg, end_alg = move[0..1], move[2..3]
 
       start_pos = algebraic_to_coords(start_alg)
@@ -176,18 +242,18 @@ class Game
 
         if moving_piece.nil?
           puts "Invalid move. There is no piece at #{start_alg}."
-        elsif moving_piece.color != @current_player
+        elsif moving_piece.color != @current_player # This is the crucial check
           puts "Invalid move. You can only move your own pieces (#{@current_player})."
         else
-          # Get valid moves for the selected piece
+          # If the piece belongs to the current player, THEN check for valid moves.
           possible_moves = moving_piece.valid_moves(start_pos, @board)
 
           if possible_moves.include?(end_pos)
-          captured_piece = @board.move_piece(start_pos, end_pos)
-          if captured_piece
-            puts "#{captured_piece.class} (#{captured_piece.to_s}) was captured!"
-          end
-          switch_player
+            captured_piece = @board.move_piece(start_pos, end_pos)
+            if captured_piece
+              puts "#{captured_piece.class} (#{captured_piece.to_s}) was captured!"
+            end
+            switch_player
           else
             puts "Invalid move for a #{moving_piece.class}."
           end
