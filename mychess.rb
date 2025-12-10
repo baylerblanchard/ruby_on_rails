@@ -65,6 +65,31 @@ class Bishop < Piece
   def to_s
     @color == :white ? '♝' : '♗'
   end
+
+  def valid_moves(current_pos, board)
+    moves = []
+    row, col = current_pos
+    grid = board.grid
+
+    # Directions: all four diagonals
+    directions = [[-1, -1], [-1, 1], [1, -1], [1, 1]]
+
+    directions.each do |dr, dc|
+      (1..7).each do |i|
+        next_pos = [row + i * dr, col + i * dc]
+        break unless board.in_bounds?(next_pos)
+
+        target_piece = grid[next_pos[0]][next_pos[1]]
+        if target_piece.nil?
+          moves << next_pos # Empty square
+        else
+          moves << next_pos if target_piece.color != @color # Capture
+          break # Blocked by a piece
+        end
+      end
+    end
+    moves
+  end
 end
 
 class Knight < Piece
