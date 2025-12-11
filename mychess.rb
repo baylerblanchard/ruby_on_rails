@@ -53,11 +53,63 @@ class King < Piece
   def to_s
     @color == :white ? '♚' : '♔'
   end
+
+  def valid_moves(current_pos, board)
+    moves = []
+    row, col = current_pos
+    grid = board.grid
+
+    # King can move one square in any direction
+    directions = [
+      [-1, -1], [-1, 0], [-1, 1],
+      [0, -1],           [0, 1],
+      [1, -1],  [1, 0],  [1, 1]
+    ]
+
+    directions.each do |dr, dc|
+      next_pos = [row + dr, col + dc]
+      if board.in_bounds?(next_pos)
+        target_piece = grid[next_pos[0]][next_pos[1]]
+        if target_piece.nil? || target_piece.color != @color
+          moves << next_pos
+        end
+      end
+    end
+    moves
+  end
 end
 
 class Queen < Piece
   def to_s
     @color == :white ? '♛' : '♕'
+  end
+
+  def valid_moves(current_pos, board)
+    moves = []
+    row, col = current_pos
+    grid = board.grid
+
+    # Queen combines Rook and Bishop movement (all 8 directions)
+    directions = [
+      [-1, 0], [1, 0], [0, -1], [0, 1],   # Orthogonal
+      [-1, -1], [-1, 1], [1, -1], [1, 1]  # Diagonal
+    ]
+
+    directions.each do |dr, dc|
+      (1..7).each do |i|
+        next_pos = [row + i * dr, col + i * dc]
+        break unless board.in_bounds?(next_pos)
+
+        target_piece = grid[next_pos[0]][next_pos[1]]
+        if target_piece.nil?
+          moves << next_pos # Empty square
+        else
+          moves << next_pos if target_piece.color != @color # Capture
+          break # Blocked by a piece
+        end
+      end
+    end
+    moves
   end
 end
 
