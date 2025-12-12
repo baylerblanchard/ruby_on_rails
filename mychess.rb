@@ -356,22 +356,60 @@ class Game
     [row, col]
   end
 
+  def coords_to_algebraic(pos)
+    row, col = pos
+    rank = 8 - row
+    file = (col + 'a'.ord).chr
+    "#{file}#{rank}"
+  end
+
+  def get_ai_move
+    moves = []
+    @board.grid.each_with_index do |row, r|
+      row.each_with_index do |piece, c|
+        next unless piece && piece.color == @current_player
+        piece.valid_moves([r, c], @board).each do |end_pos|
+          unless @board.move_leaves_king_in_check?([r, c], end_pos, @current_player)
+            target = @board.grid[end_pos[0]][end_pos[1]]
+            score = target ? 1 : 0
+            moves << { start: [r, c], end: end_pos, score: score }
+          end
+        end
+      end
+    end
+    best = moves.max_by { |m| m[:score] }
+    candidates = moves.select { |m| m[:score] == (best ? best[:score] : 0) }
+    choice = candidates.sample
+    choice ? [choice[:start], choice[:end]] : nil
+  end
+
   def play
+    puts "Play against the computer? (y/n)"
+    @vs_ai = gets.chomp.downcase.start_with?('y')
+
     loop do
       @board.display
-      puts "It's #{@current_player}'s turn."
-      puts "Enter your move (e.g., 'e2e4'):"
       
-      move = gets.chomp
-      if move.length != 4
-        puts "Invalid format. Please use algebraic notation (e.g., 'e2e4')."
-        next
+      start_pos = nil
+      end_pos = nil
+
+      if @vs_ai && @current_player == :black
+        puts "AI is thinking..."
+        sleep(0.5)
+        start_pos, end_pos = get_ai_move
+        puts "AI plays #{coords_to_algebraic(start_pos)}#{coords_to_algebraic(end_pos)}"
+      else
+        puts "It's #{@current_player}'s turn."
+        puts "Enter your move (e.g., 'e2e4'):"
+        move = gets.chomp
+        if move.length != 4
+          puts "Invalid format. Please use algebraic notation (e.g., 'e2e4')."
+          next
+        end
+        start_alg, end_alg = move[0..1], move[2..3]
+        start_pos = algebraic_to_coords(start_alg)
+        end_pos = algebraic_to_coords(end_alg)
       end
-
-      start_alg, end_alg = move[0..1], move[2..3]
-
-      start_pos = algebraic_to_coords(start_alg)
-      end_pos = algebraic_to_coords(end_alg)
 
       if start_pos && end_pos
         moving_piece = @board.grid[start_pos[0]][start_pos[1]]
@@ -393,6 +431,13 @@ class Game
             captured_piece = @board.move_piece(start_pos, end_pos)
             if captured_piece
               puts "#{captured_piece.class} (#{captured_piece.to_s}) was captured!"
+            end
+
+            if moving_piece.is_a?(Pawn)
+              if (moving_piece.color == :white && end_pos[0] == 0) ||
+                 (moving_piece.color == :black && end_pos[0] == 7)
+                promote_pawn(end_pos)
+              end
             end
 
             opponent = (@current_player == :white) ? :black : :white
@@ -423,6 +468,31 @@ class Game
   
   def switch_player
     @current_player = (@current_player == :white) ? :black : :white
+  end
+
+  def promote_pawn(pos)
+    pawn = @board.grid[pos[0]][pos[1]]
+    
+    if @vs_ai && @current_player == :black
+      choice = 'q'
+    else
+      puts "Pawn promotion! Choose (Q)ueen, (R)ook, (B)ishop, or (K)night:"
+      loop do
+        choice = gets.chomp.downcase
+        break if ['q', 'r', 'b', 'k'].include?(choice)
+        puts "Invalid choice. Please enter Q, R, B, or K."
+      end
+    end
+
+    new_piece = case choice
+                when 'q' then Queen.new(pawn.color)
+                when 'r' then Rook.new(pawn.color)
+                when 'b' then Bishop.new(pawn.color)
+                when 'k' then Knight.new(pawn.color)
+                end
+
+    @board.grid[pos[0]][pos[1]] = new_piece
+    puts "Pawn promoted to #{new_piece.class}!"
   end
 end
 
