@@ -253,6 +253,60 @@ class Board
     pos[0].between?(0, 7) && pos[1].between?(0, 7)
   end
 
+  def find_king(color)
+    @grid.each_with_index do |row, r|
+      row.each_with_index do |piece, c|
+        return [r, c] if piece.is_a?(King) && piece.color == color
+      end
+    end
+    nil
+  end
+
+  def in_check?(color)
+    king_pos = find_king(color)
+    opponent_color = (color == :white) ? :black : :white
+
+    @grid.each_with_index do |row, r|
+      row.each_with_index do |piece, c|
+        next unless piece && piece.color == opponent_color
+        # Check if any opponent piece can attack the king's position
+        return true if piece.valid_moves([r, c], self).include?(king_pos)
+      end
+    end
+    false
+  end
+
+  def checkmate?(color)
+    return false unless in_check?(color)
+
+    # Check if any move can remove the check
+    @grid.each_with_index do |row, r|
+      row.each_with_index do |piece, c|
+        next unless piece && piece.color == color
+        piece.valid_moves([r, c], self).each do |move|
+          return false unless move_leaves_king_in_check?([r, c], move, color)
+        end
+      end
+    end
+    true
+  end
+
+  def move_leaves_king_in_check?(start_pos, end_pos, color)
+    moving_piece = @grid[start_pos[0]][start_pos[1]]
+    target_piece = @grid[end_pos[0]][end_pos[1]]
+
+    @grid[end_pos[0]][end_pos[1]] = moving_piece
+    @grid[start_pos[0]][start_pos[1]] = nil
+
+    begin
+      in_check?(color)
+    ensure
+      # Revert the move
+      @grid[start_pos[0]][start_pos[1]] = moving_piece
+      @grid[end_pos[0]][end_pos[1]] = target_piece
+    end
+  end
+
   private
 
   def setup_pieces
@@ -326,10 +380,25 @@ class Game
           possible_moves = moving_piece.valid_moves(start_pos, @board)
 
           if possible_moves.include?(end_pos)
+            if @board.move_leaves_king_in_check?(start_pos, end_pos, @current_player)
+              puts "Invalid move. You cannot leave or place your King in check."
+              next
+            end
+
             captured_piece = @board.move_piece(start_pos, end_pos)
             if captured_piece
               puts "#{captured_piece.class} (#{captured_piece.to_s}) was captured!"
             end
+
+            opponent = (@current_player == :white) ? :black : :white
+            if @board.checkmate?(opponent)
+              @board.display
+              puts "Checkmate! #{@current_player} wins!"
+              break
+            elsif @board.in_check?(opponent)
+              puts "Check!"
+            end
+
             switch_player
           else
             puts "Invalid move for a #{moving_piece.class}."
