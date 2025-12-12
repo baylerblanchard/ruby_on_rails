@@ -1,9 +1,11 @@
 # A parent class for all pieces
 class Piece
   attr_reader :color
+  attr_accessor :has_moved
 
   def initialize(color)
     @color = color
+    @has_moved = false
   end
 
   # We'll use Unicode characters for a nicer display
@@ -45,6 +47,37 @@ class Rook < Piece
         end
       end
     end
+
+    # Castling Logic
+    if !@has_moved
+      row = current_pos[0]
+      
+      # Kingside Castle
+      kingside_rook = board.grid[row][7]
+      if kingside_rook.is_a?(Rook) && !kingside_rook.has_moved
+        if board.grid[row][5].nil? && board.grid[row][6].nil?
+          # Check if path is safe (Current, Cross, End)
+          if !board.square_under_attack?([row, 4], @color) &&
+             !board.square_under_attack?([row, 5], @color) &&
+             !board.square_under_attack?([row, 6], @color)
+            moves << [row, 6]
+          end
+        end
+      end
+
+      # Queenside Castle
+      queenside_rook = board.grid[row][0]
+      if queenside_rook.is_a?(Rook) && !queenside_rook.has_moved
+        if board.grid[row][1].nil? && board.grid[row][2].nil? && board.grid[row][3].nil?
+          if !board.square_under_attack?([row, 4], @color) &&
+             !board.square_under_attack?([row, 3], @color) &&
+             !board.square_under_attack?([row, 2], @color)
+            moves << [row, 2]
+          end
+        end
+      end
+    end
+
     moves
   end
 end
@@ -234,6 +267,20 @@ class Board
     moving_piece = @grid[start_pos[0]][start_pos[1]]
     return nil if moving_piece.nil? # No piece to move
 
+    # Handle Castling (King moves 2 squares)
+    if moving_piece.is_a?(King) && (start_pos[1] - end_pos[1]).abs == 2
+      row = start_pos[0]
+      is_kingside = end_pos[1] > start_pos[1]
+      
+      old_rook_col = is_kingside ? 7 : 0
+      new_rook_col = is_kingside ? 5 : 3
+      
+      rook = @grid[row][old_rook_col]
+      @grid[row][new_rook_col] = rook
+      @grid[row][old_rook_col] = nil
+      rook.has_moved = true if rook
+    end
+
     # TODO: Add move validation logic here.
     # A real move validation would check if the target square contains a friendly piece.
 
@@ -245,6 +292,7 @@ class Board
 
     @grid[end_pos[0]][end_pos[1]] = moving_piece
     @grid[start_pos[0]][start_pos[1]] = nil
+    moving_piece.has_moved = true
     captured_piece # Return the captured piece, or nil
   end
 
@@ -271,6 +319,23 @@ class Board
         next unless piece && piece.color == opponent_color
         # Check if any opponent piece can attack the king's position
         return true if piece.valid_moves([r, c], self).include?(king_pos)
+      end
+    end
+    false
+  end
+
+  def square_under_attack?(pos, friendly_color)
+    opponent_color = (friendly_color == :white) ? :black : :white
+    @grid.each_with_index do |row, r|
+      row.each_with_index do |piece, c|
+        next unless piece && piece.color == opponent_color
+        
+        # Optimization: For Kings, check distance to avoid infinite recursion in valid_moves
+        if piece.is_a?(King)
+          return true if (r - pos[0]).abs <= 1 && (c - pos[1]).abs <= 1
+        else
+          return true if piece.valid_moves([r, c], self).include?(pos)
+        end
       end
     end
     false
