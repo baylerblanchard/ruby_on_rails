@@ -276,19 +276,24 @@ class Board
     false
   end
 
-  def checkmate?(color)
-    return false unless in_check?(color)
-
-    # Check if any move can remove the check
+  def has_legal_moves?(color)
     @grid.each_with_index do |row, r|
       row.each_with_index do |piece, c|
         next unless piece && piece.color == color
         piece.valid_moves([r, c], self).each do |move|
-          return false unless move_leaves_king_in_check?([r, c], move, color)
+          return true unless move_leaves_king_in_check?([r, c], move, color)
         end
       end
     end
-    true
+    false
+  end
+
+  def checkmate?(color)
+    in_check?(color) && !has_legal_moves?(color)
+  end
+
+  def stalemate?(color)
+    !in_check?(color) && !has_legal_moves?(color)
   end
 
   def move_leaves_king_in_check?(start_pos, end_pos, color)
@@ -394,6 +399,10 @@ class Game
             if @board.checkmate?(opponent)
               @board.display
               puts "Checkmate! #{@current_player} wins!"
+              break
+            elsif @board.stalemate?(opponent)
+              @board.display
+              puts "Stalemate! It's a draw."
               break
             elsif @board.in_check?(opponent)
               puts "Check!"
