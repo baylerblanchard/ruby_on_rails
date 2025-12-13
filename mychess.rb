@@ -78,6 +78,15 @@ class Rook < Piece
       end
     end
 
+    # 4. En Passant
+    if board.last_double_step_pawn
+      pawn_row, pawn_col = board.last_double_step_pawn
+      if row == pawn_row && (col - pawn_col).abs == 1
+        # The move target is behind the pawn being captured
+        moves << [row + direction, pawn_col]
+      end
+    end
+
     moves
   end
 end
@@ -247,10 +256,12 @@ end
 # You would create similar classes for King, Queen, Bishop, Knight, and Pawn.
 class Board
   attr_reader :grid, :captured_pieces
+  attr_accessor :last_double_step_pawn
 
   def initialize
     @grid = Array.new(8) { Array.new(8) }
     @captured_pieces = { white: [], black: [] }
+    @last_double_step_pawn = nil
     setup_pieces
   end
 
@@ -285,6 +296,14 @@ class Board
     # A real move validation would check if the target square contains a friendly piece.
 
     captured_piece = @grid[end_pos[0]][end_pos[1]]
+    
+    # En Passant Capture Logic
+    if moving_piece.is_a?(Pawn) && captured_piece.nil? && start_pos[1] != end_pos[1]
+      captured_pawn_pos = [start_pos[0], end_pos[1]]
+      captured_piece = @grid[captured_pawn_pos[0]][captured_pawn_pos[1]]
+      @grid[captured_pawn_pos[0]][captured_pawn_pos[1]] = nil
+    end
+
     if captured_piece
       # Add the captured piece to the appropriate list
       @captured_pieces[captured_piece.color] << captured_piece
@@ -292,6 +311,14 @@ class Board
 
     @grid[end_pos[0]][end_pos[1]] = moving_piece
     @grid[start_pos[0]][start_pos[1]] = nil
+    
+    # Update last_double_step_pawn for En Passant tracking
+    if moving_piece.is_a?(Pawn) && (start_pos[0] - end_pos[0]).abs == 2
+      @last_double_step_pawn = end_pos
+    else
+      @last_double_step_pawn = nil
+    end
+
     moving_piece.has_moved = true
     captured_piece # Return the captured piece, or nil
   end
@@ -364,6 +391,14 @@ class Board
   def move_leaves_king_in_check?(start_pos, end_pos, color)
     moving_piece = @grid[start_pos[0]][start_pos[1]]
     target_piece = @grid[end_pos[0]][end_pos[1]]
+    
+    # Handle En Passant simulation (capture is not at end_pos)
+    en_passant_capture = nil
+    if moving_piece.is_a?(Pawn) && target_piece.nil? && start_pos[1] != end_pos[1]
+      captured_pawn_pos = [start_pos[0], end_pos[1]]
+      en_passant_capture = @grid[captured_pawn_pos[0]][captured_pawn_pos[1]]
+      @grid[captured_pawn_pos[0]][captured_pawn_pos[1]] = nil
+    end
 
     @grid[end_pos[0]][end_pos[1]] = moving_piece
     @grid[start_pos[0]][start_pos[1]] = nil
@@ -374,6 +409,11 @@ class Board
       # Revert the move
       @grid[start_pos[0]][start_pos[1]] = moving_piece
       @grid[end_pos[0]][end_pos[1]] = target_piece
+      # Revert En Passant capture
+      if en_passant_capture
+        captured_pawn_pos = [start_pos[0], end_pos[1]]
+        @grid[captured_pawn_pos[0]][captured_pawn_pos[1]] = en_passant_capture
+      end
     end
   end
 
@@ -436,7 +476,12 @@ class Game
         piece.valid_moves([r, c], @board).each do |end_pos|
           unless @board.move_leaves_king_in_check?([r, c], end_pos, @current_player)
             target = @board.grid[end_pos[0]][end_pos[1]]
-            score = target ? 1 : 0
+            # Score 1 for capture (including En Passant), 0 for move
+            if target || (piece.is_a?(Pawn) && c != end_pos[1]) 
+              score = 1
+            else
+              score = 0
+            end
             moves << { start: [r, c], end: end_pos, score: score }
           end
         end
@@ -465,8 +510,13 @@ class Game
         puts "AI plays #{coords_to_algebraic(start_pos)}#{coords_to_algebraic(end_pos)}"
       else
         puts "It's #{@current_player}'s turn."
-        puts "Enter your move (e.g., 'e2e4'):"
+        puts "Enter your move (e.g., 'e2e4') or 'resign':"
         move = gets.chomp
+        if move.downcase == 'resign'
+          puts "#{@current_player} resigns. Game over."
+          break
+        end
+
         if move.length != 4
           puts "Invalid format. Please use algebraic notation (e.g., 'e2e4')."
           next
