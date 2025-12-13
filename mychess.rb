@@ -1,3 +1,5 @@
+require 'yaml'
+
 # A parent class for all pieces
 class Piece
   attr_reader :color
@@ -388,6 +390,23 @@ class Board
     !in_check?(color) && !has_legal_moves?(color)
   end
 
+  def insufficient_material?
+    pieces = @grid.flatten.compact
+    # If there are any Pawns, Rooks, or Queens, it's not insufficient material
+    return false if pieces.any? { |p| p.is_a?(Pawn) || p.is_a?(Rook) || p.is_a?(Queen) }
+
+    # If we are here, only Kings, Knights, and Bishops remain
+    # King vs King
+    return true if pieces.count == 2
+
+    # King + Minor Piece vs King
+    if pieces.count == 3
+      return true
+    end
+
+    false
+  end
+
   def move_leaves_king_in_check?(start_pos, end_pos, color)
     moving_piece = @grid[start_pos[0]][start_pos[1]]
     target_piece = @grid[end_pos[0]][end_pos[1]]
@@ -510,11 +529,15 @@ class Game
         puts "AI plays #{coords_to_algebraic(start_pos)}#{coords_to_algebraic(end_pos)}"
       else
         puts "It's #{@current_player}'s turn."
-        puts "Enter your move (e.g., 'e2e4') or 'resign':"
+        puts "Enter move (e.g., 'e2e4'), 'save', or 'resign':"
         move = gets.chomp
         if move.downcase == 'resign'
           puts "#{@current_player} resigns. Game over."
           break
+        end
+        if move.downcase == 'save'
+          save_game
+          next
         end
 
         if move.length != 4
@@ -564,6 +587,10 @@ class Game
               @board.display
               puts "Stalemate! It's a draw."
               break
+            elsif @board.insufficient_material?
+              @board.display
+              puts "Draw by insufficient material!"
+              break
             elsif @board.in_check?(opponent)
               puts "Check!"
             end
@@ -580,6 +607,13 @@ class Game
   end
 
   private
+
+  def save_game
+    puts "Enter filename to save (e.g., 'chess_save.yml'):"
+    filename = gets.chomp
+    File.open(filename, 'w') { |f| f.write(YAML.dump(self)) }
+    puts "Game saved to #{filename}."
+  end
   
   def switch_player
     @current_player = (@current_player == :white) ? :black : :white
@@ -613,5 +647,20 @@ end
 
 # To start the game:
 # game = Game.new
-game = Game.new
-game.play
+puts "Welcome to Ruby Chess!"
+puts "Type 'load' to load a saved game, or press Enter to start a new game."
+input = gets.chomp.downcase
+
+if input == 'load'
+  puts "Enter filename to load:"
+  filename = gets.chomp
+  if File.exist?(filename)
+    game = YAML.load(File.read(filename), permitted_classes: [Game, Board, Piece, King, Queen, Rook, Bishop, Knight, Pawn, Symbol], aliases: true)
+    game.play
+  else
+    puts "File not found. Starting new game."
+    Game.new.play
+  end
+else
+  Game.new.play
+end
